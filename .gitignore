@@ -1,0 +1,12 @@
+# Data
+data/input/*
+data/output/*
+
+# Python stuff
+*.pyc
+
+# Mac stuff
+*.DS_Store
+
+# Editor stuff
+*.espressostorage
