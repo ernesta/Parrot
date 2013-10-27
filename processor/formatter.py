@@ -54,11 +54,11 @@ def formatList(values, header):
 def formatMFCC(values, limit):
 	formatted = []
 	
-	header = [u"{}{}".format(u"MFCC", i) for i in range(1, limit + 1)]
+	header = [u"MFCC"]
 	formatted.append(header)
 	
 	for i in range(0, len(values)):
-		formatted.append(values[i][1 : limit + 1])
+		formatted.append([values[i][1 : limit + 1]])
 	
 	return formatted
 
