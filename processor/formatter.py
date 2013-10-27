@@ -1,59 +1,31 @@
 ## Constants ##
-CHORD_KEYS = {
-	"C": 0,
-	"Cm": 0,
-	"C#": 1,
-	"C#m": 1,
-	"D": 2,
-	"Dm": 2,
-	"Eb": 3,
-	"Ebm": 3,
-	"E": 4,
-	"Em": 4,
-	"F": 5,
-	"Fm": 5,
-	"F#": 6,
-	"F#m": 6,
-	"G": 7,
-	"Gm": 7,
-	"Ab": 8,
-	"Abm": 8,
-	"A": 9,
-	"Am": 9,
-	"Bb": 10,
-	"Bbm": 10,
-	"B": 11,
-	"Bm": 11
-}
+CHORDS = {
+	"C": {"notes": [1,0,0,0,1,0,0,1,0,0,0,0], "key": 0, "mode": 1},
+	"Cm": {"notes": [1,0,0,1,0,0,0,1,0,0,0,0], "key": 0, "mode": 0},
+	"C#": {"notes": [0,1,0,0,0,1,0,0,1,0,0,0], "key": 1, "mode": 1},
+	"C#m": {"notes": [0,1,0,0,1,0,0,0,1,0,0,0], "key": 1, "mode": 0},
+	"D": {"notes": [0,0,1,0,0,0,1,0,0,1,0,0], "key": 2, "mode": 1},
+	"Dm": {"notes": [0,0,1,0,0,1,0,0,0,1,0,0], "key": 2, "mode": 0},
+	"Eb": {"notes": [0,0,0,1,0,0,0,1,0,0,1,0], "key": 3, "mode": 1},
+	"Ebm": {"notes": [0,0,0,1,0,0,1,0,0,0,1,0], "key": 3, "mode": 0},
+	"E": {"notes": [0,0,0,0,1,0,0,0,1,0,0,1], "key": 4, "mode": 1},
+	"Em": {"notes": [0,0,0,0,1,0,0,1,0,0,0,1], "key": 4, "mode": 0},
+	"F": {"notes": [1,0,0,0,0,1,0,0,0,1,0,0], "key": 5, "mode": 1},
+	"Fm": {"notes": [1,0,0,0,0,1,0,0,1,0,0,0], "key": 5, "mode": 0},
+	"F#": {"notes": [0,1,0,0,0,0,1,0,0,0,1,0], "key": 6, "mode": 1},
+	"F#m": {"notes": [0,1,0,0,0,0,1,0,0,1,0,0], "key": 6, "mode": 0},
+	"G": {"notes": [0,0,1,0,0,0,0,1,0,0,0,1], "key": 7, "mode": 1},
+	"Gm": {"notes": [0,0,1,0,0,0,0,1,0,0,1,0], "key": 7, "mode": 0},
+	"Ab": {"notes": [1,0,0,1,0,0,0,0,1,0,0,0], "key": 8, "mode": 1},
+	"Abm": {"notes": [0,0,0,1,0,0,0,0,1,0,0,1], "key": 8, "mode": 0},
+	"A": {"notes": [0,1,0,0,1,0,0,0,0,1,0,0], "key": 9, "mode": 1},
+	"Am": {"notes": [1,0,0,0,1,0,0,0,0,1,0,0], "key": 9, "mode": 0},
+	"Bb": {"notes": [0,0,1,0,0,1,0,0,0,0,1,0], "key": 10, "mode": 1},
+	"Bbm": {"notes": [0,1,0,0,0,1,0,0,0,0,1,0], "key": 10, "mode": 0},
+	"B": {"notes": [0,0,0,1,0,0,1,0,0,0,0,1], "key": 11, "mode": 1},
+	"Bm": {"notes": [0,0,1,0,0,0,1,0,0,0,0,1], "key": 11, "mode": 0}}
 
-CHORD_MODES = {
-	"C": 1,
-	"Cm": 0,
-	"C#": 1,
-	"C#m": 0,
-	"D": 1,
-	"Dm": 0,
-	"Eb": 1,
-	"Ebm": 0,
-	"E": 1,
-	"Em": 0,
-	"F": 1,
-	"Fm": 0,
-	"F#": 1,
-	"F#m": 0,
-	"G": 1,
-	"Gm": 0,
-	"Ab": 1,
-	"Abm": 0,
-	"A": 1,
-	"Am": 0,
-	"Bb": 1,
-	"Bbm": 0,
-	"B": 1,
-	"Bm": 0
-}
-
-NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
 
 
@@ -106,15 +78,14 @@ def formatTimes(values):
 def formatChords(values):
 	formatted = []
 	
-	header = [u"chordName", u"chordKey", u"chordMode"]
+	header = [u"chordName", u"chordKey", u"chordMode", u"chordNotes"]
 	formatted.append(header)
 	
 	for i in range(0, len(values)):
 		name = values[i]
-		key = CHORD_KEYS.get(name, 0)
-		mode = CHORD_MODES.get(name, 0)
+		chord = CHORDS.get(name)
 		
-		formatted.append([name, key, mode])
+		formatted.append([name, chord.get("key"), chord.get("mode"), chord.get("notes")])
 	
 	return formatted
 
@@ -129,7 +100,7 @@ def formatNotes(values):
 		midi = values[i]
 		octave = (midi / 12) - 1
 		key = midi % 12
-		name = NOTE_NAMES[key]
+		name = NOTES[key]
 		
 		formatted.append([name, midi, key, octave])
 	
