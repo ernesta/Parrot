@@ -1,1 +1,3 @@
-/Users/ernesta/Files/Python/Parrot/data/input/Ieva Narkutė - Raudoni vakarai.mp3
+Feels So Good.mp3
+Hey Bird.mp3
+October.mp3

@@ -9,6 +9,7 @@ import os
 SCRIPTS, SCRIPT = os.path.split(os.path.abspath(__file__))
 DATA = u"{}/../data".format(SCRIPTS)
 SAMPLES = u"{}/samples.txt".format(DATA)
+INPUT = u"{}/input".format(DATA)
 OUTPUT = u"{}/output".format(DATA)
 
 FILENAME = u"{}/{}"
@@ -89,10 +90,12 @@ def extractFeature(feature, indices, values, directory):
 
 
 ## Flow ##
-paths = utils.loadListFromFile(SAMPLES)
+filenames = utils.loadListFromFile(SAMPLES)
 
-for path in paths:
+for filename in filenames:
 	# Loads the file for MIR and metadata extraction
+	path = FILENAME.format(INPUT, filename)
+	
 	try:
 		meta = metadata.load(path)
 		audio = mir.load(path)

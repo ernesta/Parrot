@@ -2,10 +2,6 @@
 visualizer
 app
 
-# Data
-data/input/*
-data/output/*
-
 # Python stuff
 *.pyc
 

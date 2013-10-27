@@ -93,7 +93,7 @@ def formatChords(values):
 def formatNotes(values):
 	formatted = []
 	
-	header = [u"noteName", u"noteMIDI", u"noteKey", u"nodeOctave"]
+	header = [u"noteName", u"noteMIDI", u"noteKey", u"noteOctave"]
 	formatted.append(header)
 	
 	for i in range(0, len(values)):
