@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Visualizing music.">
+	<meta name="author" content="Ernesta Orlovaitė">
+	<title>Parrot</title>
+	
+	<link rel="shortcut icon" href="">
+	
+	<link rel="stylesheet" href="css/libs/bootstrap.min.css">
+	<link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+	<!-- Navbar -->
+	<div class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Project Parrot</a>
+			</div>
+			
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div id="graphs" class="container">
+		<div id="notes1"></div>
+		<div id="notes2"></div>
+		<div id="chords1"></div>
+		<div id="chords2"></div>
+		<div id="chords3"></div>
+		<div id="chords4"></div>
+		<div id="timbre1"></div>
+		<div id="timbre2"></div>
+		<div id="intensity1"></div>
+		<div id="intensity2"></div>
+	</div>
+	
+	<!-- Scripts -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script src="../visualizer/Parrot.js"></script>
+	<script src="js/app.js"></script>
+  </body>
+</html>
