@@ -13,6 +13,29 @@ body {
 	color: #DCDCDC;
 }
 
+.nav a, .nav a .caret, .nav a:hover .caret {
+	color: #DCDCDC;
+	border-top-color: #DCDCDC;
+	border-bottom-color: #DCDCDC;
+}
+
+.nav .open > a,
+.nav > li > a:focus {
+	background: #043448;
+	border-color: #011A25;
+}
+
+.nav .active,
+.nav .open > a:hover,
+.nav .open > a:focus,
+.nav > li > a:hover {
+	background: #104F6A;
+}
+
+.nav ul li > a:hover {
+	background: #3080A3;
+}
+
 .feature > p {
 	color: #555;
 	font-size: 12px;

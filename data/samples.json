@@ -1,0 +1,32 @@
+[
+	{
+		"title": "Hey Bird",
+		"artist": "Linden Tree",
+		"album": "ccMixter",
+		"year": "2013",
+		"time": "05:03",
+		"size": "4.66 MB",
+		"bitRate": "128 kb/s",
+		"directory": "1ba96c684363d9c716202ad9208719d7/"
+	},
+	{
+		"title": "Feels So Good - Surprise Mix",
+		"artist": "Rey Izain",
+		"album": "ccMixter",
+		"year": "2013",
+		"time": "05:59",
+		"size": "8.26 MB",
+		"bitRate": "192 kb/s",
+		"directory": "9f54d3e83d5a91204f8cb78361bc83a0/"
+	},
+	{
+		"title": "October",
+		"artist": "Doxent Zsigmond",
+		"album": "ccMixter",
+		"year": "2013",
+		"time": "03:01",
+		"size": "6.91 MB",
+		"bitRate": "320 kb/s",
+		"directory": "161e4df51c6495d5e3f95d313cbb522a/"
+	}
+]

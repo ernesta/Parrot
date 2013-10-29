@@ -28,6 +28,8 @@ var Parrot = (function($) {
 		
 		setProperties();
 		setScale();
+		
+		cleanCanvas();
 	}
 	
 	function BarChart(data) {
@@ -42,6 +44,10 @@ var Parrot = (function($) {
 	
 	
 	//// Drawing ////
+	function cleanCanvas() {
+		d3.select(config.container + " svg").remove();
+	}
+	
 	function drawBarChart(data) {
 		var svg = createSVG();
 		

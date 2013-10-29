@@ -1,6 +1,9 @@
 # Libs
 processor/pymir
 
+# .htaccess
+.htaccess
+
 # Python stuff
 *.pyc
 
