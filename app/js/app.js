@@ -13,7 +13,6 @@
 	
 	//// Attributes ////
 	var currentKey = 0;
-	var currentDir = "";
 	
 	var samples = [];
 	var bars = [];
@@ -33,22 +32,8 @@
 		displayCurrentSample();
 	}
 	
-	
-	//// UI ////
-	function displaySamples() {
-		var dropdown = $(".dropdown-menu");
-		dropdown.on("click", "li", onTrackClick);
-		
-		$.each(samples, function(key, value) {
-			var item ="<li data-key=" + key + "><a href=''>" + value.title + " (" + value.artist + ")</a></li>";
-			dropdown.append(item);
-		});
-	}
-	
-	
-	//// Visualization ////
 	function displayCurrentSample() {
-		currentDir = samples[currentKey].directory;
+		displayMetadata();
 		
 		$.getJSON(BARS, loadBars);
 		$.getJSON(HEATS, loadHeats);
@@ -64,10 +49,43 @@
 		visualize(heats, HEATMAP);
 	}
 	
+	
+	//// UI ////
+	function displaySamples() {
+		var dropdown = $(".dropdown-menu");
+		dropdown.on("click", "li", onTrackClick);
+		
+		$.each(samples, function(key, value) {
+			var item ="<li data-key=" + key + "><a href=''>" + value.title + " (" + value.artist + ")</a></li>";
+			dropdown.append(item);
+		});
+	}
+	
+	function displayMetadata() {
+		var s = samples[currentKey];
+		
+		$("#meta img").attr("src", OUTPUT + s.directory + "thumb.jpg");
+		$("#meta img").attr("alt", s.artist);
+		
+		var entries = [];
+		entries[0] = "<p><a href='" + s.URL + "'>" + s.title + "</a> by " + s.artist + "</p>";
+		entries[1] = "<p>" + s.album + " (" + s.year + ")</p>";
+		entries[2] = "<p><em>Time</em>: " + s.time + " | <em>Size</em>: " + s.size + " | <em>Bit rate</em>: " + s.bitRate + "</p>";
+		
+		var container = $("#meta > div").empty();
+		for (var i = 0; i < entries.length; i++) {
+			container.append(entries[i]);
+		}
+	}
+	
+	
+	//// Visualization ////
 	function visualize(features, type) {
 		for (var i = 0; i < features.length; i++) {
 			(function(index) {
-				d3.tsv(OUTPUT + currentDir + features[index].file, function(error, data) {
+				var filename = OUTPUT + samples[currentKey].directory + features[index].file;
+				
+				d3.tsv(filename, function(error, data) {
 					var bar = features[index];
 					
 					var config = createConfig(bar);

@@ -4,6 +4,11 @@ body {
 	color: #555;
 }
 
+a:hover {
+	color: #428BCA;
+	text-decoration: none;
+}
+
 .navbar {
 	background: #043448;
 	border-color: #011A25;
@@ -34,6 +39,29 @@ body {
 
 .nav ul li > a:hover {
 	background: #3080A3;
+}
+
+#info {
+	margin-bottom: 20px;
+}
+
+#info img {
+	float: left;
+	height: 51px;
+	margin-right: 15px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#meta {
+	float: left;
+}
+
+#meta p {
+	margin: 0;
+	font-size: 12px;
 }
 
 .feature > p {
