@@ -1,14 +1,3 @@
-// Pitch by height (notes1)
-// Pitch by color (notes2)
-// Chord by height (chords1)
-// Chord by color (chords2)
-// Chord by note position (chords3)
-// Chord by mode color (chords4)
-// Timbre (zero-crossings) by color (timbre1)
-// Timbre (MFCC) by color (timbre2)
-// Intensity by height (intensity1)
-// Intensity by color (intensity2)
-
 (function($) {
 	//// Constants ////
 	var PATH = "../data/output/161e4df51c6495d5e3f95d313cbb522a/";
