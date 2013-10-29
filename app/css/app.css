@@ -1,5 +1,4 @@
 body {
-	min-height: 2000px;
 	padding-top: 70px;
 	background: #E5E5E5 url("bcg.png") repeat;
 	color: #555;
@@ -14,14 +13,13 @@ body {
 	color: #DCDCDC;
 }
 
-.caption {
+.feature > p {
 	color: #555;
 	font-size: 12px;
 }
 
-#graphs > div {
-	width: 100%;
-	height: 300px;
+.feature > div {
+	height: 200px;
 	margin-bottom: 30px;
 	background-color: #F8F8FF;
 	border-radius: 2px;
