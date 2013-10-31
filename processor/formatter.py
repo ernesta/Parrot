@@ -83,9 +83,9 @@ def formatChords(values):
 	
 	for i in range(0, len(values)):
 		name = values[i]
-		chord = CHORDS.get(name)
+		chord = CHORDS[name]
 		
-		formatted.append([name, chord.get("key"), chord.get("mode"), chord.get("notes")])
+		formatted.append([name, chord["key"], chord["mode"], chord["notes"]])
 	
 	return formatted
 
@@ -111,3 +111,32 @@ def formatNotes(values):
 ## Intensity ##
 def formatRMS(values):
 	return formatList(values, [u"RMS"])
+
+
+
+## Analysis ##
+def formatAnalysis(values):
+	bars = [[u"bar"]]
+	for value in values["bars"]:
+		bars.append([value["start"]])
+	
+	beats = [[u"beats"]]
+	for value in values["beats"]:
+		beats.append([value["start"]])
+	
+	segments = [[u"time", u"chordNotes", u"MFCC", u"dB"]]
+	for value in values["segments"]:
+		segments.append([value["start"], value["pitches"], value["timbre"], value["loudness_start"]])
+	
+	sections = [[u"time", u"loudness", u"tempo", u"key", u"mode"]]
+	for value in values["sections"]:
+		sections.append([value["start"], value["loudness"], value["tempo"], value["key"], value["mode"]])
+	
+	formatted = {
+		"bars": bars,
+		"beats": beats,
+		"segments": segments,
+		"sections": sections
+	}
+	
+	return formatted

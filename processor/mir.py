@@ -145,7 +145,7 @@ def getRMS(frames):
 
 ## Statistics ##
 def getChordMood(chords):
-	modes = [chord.get("mode") for chord in chords]
+	modes = [chord["mode"] for chord in chords]
 	mood = float(sum(modes)) / len(modes)
 	
 	return mood

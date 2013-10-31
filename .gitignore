@@ -1,5 +1,9 @@
 # Libs
 processor/pymir
+app/js/libs
+
+# Secrets
+secrets.py
 
 # .htaccess
 .htaccess

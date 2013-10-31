@@ -2,6 +2,7 @@ import csv
 import codecs
 import cStringIO
 import hashlib
+import json
 import os
 
 
@@ -10,7 +11,9 @@ import os
 SEPARATOR = u"-" * 60
 TAB = "\t"
 UTF8 = "utf-8"
+JSON = u".json"
 TSV = u".tsv"
+TXT = u".txt"
 READ = "rb"
 WRITE = "wb"
 INDEX = u"index"
@@ -88,7 +91,7 @@ def writeData(data, filename):
 
 
 def writeText(text, filename):
-	with open(filename + TSV, WRITE) as file:
+	with open(filename + TXT, WRITE) as file:
 		# Sets encoding header
 		file.write(codecs.BOM_UTF8)
 		# Gets CSV writer
@@ -97,6 +100,11 @@ def writeText(text, filename):
 		# Writes data
 		for row in text:
 			writer.writerow([row])
+
+
+def writeJSON(data, filename):
+	with open(filename + JSON, WRITE) as file:
+		json.dump(data, file)
 
 
 class UnicodeWriter:
