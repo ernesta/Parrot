@@ -2,6 +2,7 @@
 	//// Constants ////
 	var DATA = "../data/";
 	var OUTPUT = DATA + "output/";
+	var INPUT = DATA + "input/";
 	var SAMPLES = DATA + "samples.json";
 	
 	var BARS = "js/bars.json";
@@ -18,6 +19,8 @@
 	var bars = [];
 	var heats = [];
 	
+	var player = {};
+	
 	
 	//// Flow ////
 	$.getJSON(SAMPLES, initApp);
@@ -28,13 +31,98 @@
 	function initApp(data) {
 		samples = data;
 		
+		initPlayer();
+		
 		displaySamples();
 		displayCurrentSample();
 	}
 	
+	
+	//// UI ////
+	function displaySamples() {
+		var dropdown = $(".dropdown-menu");
+		dropdown.on("click", "li", onSampleClick);
+		
+		$.each(samples, function(key, value) {
+			var item ="<li data-key=" + key + "><a href=''>" + value.title + " (" + value.artist + ")</a></li>";
+			dropdown.append(item);
+		});
+	}
+	
 	function displayCurrentSample() {
 		displayMetadata();
+		displayFeatures();
+	}
+	
+	function changeSample(key) {
+		currentKey = key;
+		displayCurrentSample();
 		
+		loadSample();
+	}
+	
+	function displayMetadata() {
+		var s = samples[currentKey];
+		
+		$(".meta img").attr("src", OUTPUT + s.directory + "thumb.jpg");
+		$(".meta img").attr("alt", s.artist);
+		
+		var entries = [];
+		entries[0] = "<p><a href='" + s.URL + "'>" + s.title + "</a> by " + s.artist + "</p>";
+		entries[1] = "<p>" + s.album + " (" + s.year + ")</p>";
+		entries[2] = "<p><em>Time</em>: " + s.time + " | <em>Size</em>: " + s.size + " | <em>Bit rate</em>: " + s.bitRate + "</p>";
+		
+		var container = $(".info").empty();
+		for (var i = 0; i < entries.length; i++) {
+			container.append(entries[i]);
+		}
+	}
+	
+	
+	//// Player ////
+	function initPlayer() {
+		$(".jp-jplayer").jPlayer({
+			ready: function(event) {
+				player = this;
+				loadSample();
+			},
+			solution: "html",
+			supplied: "mp3",
+			preload: "auto",
+			volume: 1,
+			cssSelectorAncestor: ".controls",
+			cssSelector: {
+				play: ".play",
+				stop: ".stop"
+			}
+		});
+		
+		$(".jp-jplayer").bind($.jPlayer.event.play, onPlay);
+		$(".jp-jplayer").bind($.jPlayer.event.pause, onStop);
+		$(".jp-jplayer").bind($.jPlayer.event.emptied, onClear);
+	}
+	
+	function loadSample() {
+		var s = samples[currentKey];
+		
+		$(player).jPlayer("setMedia", {
+			mp3: INPUT + s.filename
+		});
+	}
+	
+	function displayPlay() {
+		$(".stop").css("display", "none");
+		$(".play").css("display", "block");
+	}
+	
+	function displayStop() {
+		$(".play").css("display", "none");
+		$(".stop").css("display", "block");
+	}
+	
+	
+	//// Visualization ////
+	function displayFeatures() {
 		$.getJSON(BARS, loadBars);
 		$.getJSON(HEATS, loadHeats);
 	}
@@ -49,37 +137,6 @@
 		visualize(heats, HEATMAP);
 	}
 	
-	
-	//// UI ////
-	function displaySamples() {
-		var dropdown = $(".dropdown-menu");
-		dropdown.on("click", "li", onTrackClick);
-		
-		$.each(samples, function(key, value) {
-			var item ="<li data-key=" + key + "><a href=''>" + value.title + " (" + value.artist + ")</a></li>";
-			dropdown.append(item);
-		});
-	}
-	
-	function displayMetadata() {
-		var s = samples[currentKey];
-		
-		$("#meta img").attr("src", OUTPUT + s.directory + "thumb.jpg");
-		$("#meta img").attr("alt", s.artist);
-		
-		var entries = [];
-		entries[0] = "<p><a href='" + s.URL + "'>" + s.title + "</a> by " + s.artist + "</p>";
-		entries[1] = "<p>" + s.album + " (" + s.year + ")</p>";
-		entries[2] = "<p><em>Time</em>: " + s.time + " | <em>Size</em>: " + s.size + " | <em>Bit rate</em>: " + s.bitRate + "</p>";
-		
-		var container = $("#meta > div").empty();
-		for (var i = 0; i < entries.length; i++) {
-			container.append(entries[i]);
-		}
-	}
-	
-	
-	//// Visualization ////
 	function visualize(features, type) {
 		for (var i = 0; i < features.length; i++) {
 			(function(index) {
@@ -105,15 +162,26 @@
 	
 	
 	//// Events ////
-	var onTrackClick = function(event) {
+	var onSampleClick = function(event) {
 		event.preventDefault();
 		
 		var item = $(event.currentTarget);
+		var key = item.data().key;
 		
-		currentKey = item.data().key;
-		displayCurrentSample();
+		changeSample(key);
 	}
-		
+	
+	var onPlay = function(event) {
+		displayStop();
+	}
+	
+	var onStop = function(event) {
+		displayPlay();
+	}
+	
+	var onClear = function(event) {
+		displayPlay();
+	}
 	
 	
 	//// Utilities ////

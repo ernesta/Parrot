@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="css/app.css">
 </head>
 
+
 <body>
 	<!-- Navbar -->
 	<div class="navbar navbar-fixed-top">
@@ -35,19 +36,40 @@
 			</ul>
 		</div>
 	</div>
+	<!-- /Navbar -->
 	
-	<div id="info" class="container">
+	
+	<!-- Meta -->
+	<div class="meta container">
 		<div class="row">
-			<div id="meta" class="col-md-6">
-				<img />
-				<div></div>
-			</div>
-			
 			<div class="col-md-6">
+				<div class="jp-jplayer"></div>
+				
+				<div class="controls jp-audio">
+					<div class="jp-type-single">
+						<div class="jp-gui jp-interface">
+							<ul class="jp-controls">
+								<li><a href="javascript:;" class="play" tabindex="1">
+									<span class="glyphicon glyphicon-play"></span>
+								</a></li>
+								<li><a href="javascript:;" class="stop" tabindex="1">
+									<span class="glyphicon glyphicon-stop"></span>
+								</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+				<img />
+				
+				<div class="info"></div>
 			</div>
 		</div>
 	</div>
+	<!-- /Meta -->
 	
+	
+	<!-- Graphs -->
 	<div id="graphs" class="container">
 		<div class="row">
 			<div class="col-md-6 feature">
@@ -109,6 +131,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- /Graphs -->
+	
 	
 	<!-- Scripts -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -116,6 +140,7 @@
 	<script src="../visualizer/Parrot.js"></script>
 	
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="js/libs/jquery.jplayer.min.js"></script>
 	<script src="js/app.js"></script>
   </body>
 </html>
