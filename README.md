@@ -5,7 +5,7 @@ Visualizing music. More to come.
 ## Libraries
 + The processing component relies on [PyMIR](https://github.com/jsawruk/pymir), [eyeD3](http://eyed3.nicfit.net/) and [NumPy](http://www.numpy.org/). On top of that, PyMIR will get you to install a bunch of other libraries.
 + The visualization component depends on [jQuery](http://jquery.com/) and [D3.js](http://d3js.org/). By the way, D3.js is (redacted) amazing.
-+ The application is built with [Bootstrap](http://getbootstrap.com/). Elegance guaranteed.
++ The application is built with [Bootstrap](http://getbootstrap.com/). Elegance guaranteed. HTML5 audio works with some [jPlayer](http://jplayer.org/) magic.
 
 ## Samples
 The `data` directory includes several music tracks (all licenses CC BY-NC 3.0):
