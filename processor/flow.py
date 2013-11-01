@@ -140,7 +140,7 @@ for filename in utils.loadListFromFile("{}.txt".format(SAMPLES)):
 	})
 	
 	# Extracts feature information
-#	extractIndividualFeatures(directory, audio)
+	extractIndividualFeatures(directory, audio)
 	extractAllFeatures(directory, audio)
 	
 	# Extracts Echo Nest feature information

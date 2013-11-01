@@ -10,7 +10,7 @@ from pymir import Frame
 ## Constants ##
 FRAME = pow(2, 14);
 FILTERS = 40
-DIMENSIONS = 6
+DIMENSIONS = 12
 
 
 
