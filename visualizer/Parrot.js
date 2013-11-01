@@ -6,7 +6,9 @@ var Parrot = (function($) {
 	//// Properties ////
 	var config = {
 		container: "#graph",
-		colors: ["#FFFFFF", "#000000"]
+		colors: ["#FFFFFF", "#000000"],
+		startCallback: function() {},
+		doneCallback: function() {}
 	};
 	
 	var props = {
@@ -33,11 +35,15 @@ var Parrot = (function($) {
 	}
 	
 	function BarChart(data) {
+		config.startCallback();
+		
 		setDomain(data);
 		drawBarChart(data);
 	}
 	
 	function Heatmap(data) {
+		config.startCallback();
+		
 		setDomain(data);
 		drawHeatmap(data);
 	}
@@ -61,6 +67,8 @@ var Parrot = (function($) {
 			.attr("width", props.width / data.length)
 			.attr("height", function(d) { return props.height - scale.y(d.y); })
 			.style("fill", function(d) { return d3.interpolateRgb(config.colors[0], config.colors[1])(scale.z(d.z)); });
+		
+		config.doneCallback();
 	}
 	
 	function drawHeatmap(data) {
@@ -85,6 +93,8 @@ var Parrot = (function($) {
 			.attr("width", w)
 			.attr("height", h)
 			.style("fill", function(d) { return d3.interpolateRgb(config.colors[0], config.colors[1])(scale.z(d)); });
+		
+		config.doneCallback();
 	}
 	
 	function createSVG() {

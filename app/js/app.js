@@ -16,6 +16,8 @@
 	
 	//// Attributes ////
 	var currentKey = 0;
+	var featureCounter = 0;
+	var featureCount = 0;
 	
 	var samples = [];
 	var bars = [];
@@ -137,6 +139,14 @@
 		$("#summary span").tooltip();
 	}
 	
+	function toggleProgress(on) {
+		if (on) {
+			$(".progress").css("visibility", "visible");
+		} else {
+			$(".progress").css("visibility", "hidden");
+		}
+	}
+	
 	
 	//// Player ////
 	function initPlayer() {
@@ -219,26 +229,51 @@
 		}
 	}
 	
+	function cleanAllGraphs() {
+		$("svg").remove();
+	}
+	
 	
 	//// Events ////
-	var onSampleClick = function(event) {
+	function onSampleClick(event) {
 		event.preventDefault();
 		
 		var item = $(event.currentTarget);
 		var key = item.data().key;
 		
+		onDrawingStarted();
 		changeSample(key);
 	}
 	
-	var onPlay = function(event) {
+	function onDrawingStarted() {
+		if (featureCount === 0) {
+			featureCount = bars.length + heats.length;
+			
+			toggleProgress(true);
+			cleanAllGraphs();
+		}
+	}
+	
+	function onDrawingDone() {
+		featureCounter++;
+		
+		if (featureCounter === featureCount) {
+			featureCounter = 0;
+			featureCount = 0;
+			
+			toggleProgress(false);
+		}
+	}
+	
+	function onPlay(event) {
 		displayStop();
 	}
 	
-	var onStop = function(event) {
+	function onStop(event) {
 		displayPlay();
 	}
 	
-	var onClear = function(event) {
+	function onClear(event) {
 		displayPlay();
 	}
 	
@@ -247,7 +282,9 @@
 	function createConfig(config) {
 		return {
 			container: config.container,
-			colors: config.colors
+			colors: config.colors,
+			startCallback: onDrawingStarted,
+			doneCallback: onDrawingDone
 		};
 	}
 	

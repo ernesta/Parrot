@@ -50,10 +50,16 @@ a:focus {
 	background: #3080A3;
 }
 
+.progress {
+	height: 3px;
+	margin: 0;
+}
+
 
 /* Metadata */
 .meta {
-	margin-bottom: 20px;
+	margin-top: 5px;
+	margin-bottom: 40px;
 }
 
 .meta img, .controls {
