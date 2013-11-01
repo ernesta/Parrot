@@ -44,18 +44,18 @@
 	}
 	
 	function extendSamples() {
-		var counter = 0;
-		
 		for (var i = 0; i < samples.length; i++) {
-			var path = OUTPUT + samples[i].directory + INFO;
-			
-			$.getJSON(path, function(sample) {
-				$.extend(samples[counter], sample);
+			(function(i) {
+				var path = OUTPUT + samples[i].directory + INFO;
 				
-				if (++counter === samples.length) {
-					initApp();
-				}
-			});
+				$.getJSON(path, function(sample) {
+					$.extend(samples[i], sample);
+					
+					if (i + 1 === samples.length) {
+						initApp();
+					}
+				});
+			})(i);
 		}
 	}
 	
@@ -161,11 +161,11 @@
 	
 	function visualize(features, type) {
 		for (var i = 0; i < features.length; i++) {
-			(function(index) {
-				var filename = OUTPUT + samples[currentKey].directory + features[index].file;
+			(function(i) {
+				var filename = OUTPUT + samples[currentKey].directory + features[i].file;
 				
 				d3.tsv(filename, function(error, data) {
-					var bar = features[index];
+					var bar = features[i];
 					
 					var config = createConfig(bar);
 					var input = parse(data, bar.x, bar.y, bar.z);
@@ -178,7 +178,7 @@
 						Parrot.Heatmap(input);
 					}
 				});
-			})(i)
+			})(i);
 		}
 	}
 	
