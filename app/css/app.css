@@ -70,9 +70,18 @@ a:focus {
 	float: left;
 }
 
-.info p {
+.info p, #summary p {
 	margin: 0;
 	font-size: 12px;
+}
+
+#summary p:first-child {
+	margin-left: -12px;
+}
+
+#summary span {
+	margin-left: 12px;
+	margin-right: 4px;
 }
 
 

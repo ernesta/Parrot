@@ -84,6 +84,11 @@
 	}
 	
 	function displayMetadata() {
+		displayBasicInformation();
+		displayAnalysisSummary();
+	}
+	
+	function displayBasicInformation() {
 		var s = samples[currentKey];
 		
 		$(".meta img").attr("src", OUTPUT + s.directory + "thumb.jpg");
@@ -92,12 +97,44 @@
 		var entries = [];
 		entries[0] = "<p><a href='" + s.URL + "'>" + s.title + "</a> by " + s.artist + "</p>";
 		entries[1] = "<p>" + s.album + "</p>";
-		entries[2] = "<p><em>Time</em>: " + getPrettyTime(s.duration) + " | <em>Sample rate</em>: " + s.sample_rate / 1000 + "kHz | <em>Bit rate</em>: " + s.bitrate + "kb/s </p>";
+		entries[2] ="<p>" +
+			"<em>Time</em>: " + getPrettyTime(s.duration) + " | " +
+			"<em>Sample rate</em>: " + s.sample_rate / 1000 + " kHz | " +
+			"<em>Bit rate</em>: " + s.bitrate + " kb/s" +
+			"</p>";
 		
 		var container = $(".info").empty();
 		for (var i = 0; i < entries.length; i++) {
 			container.append(entries[i]);
 		}
+	}
+	
+	function displayAnalysisSummary() {
+		var s = samples[currentKey];
+		
+		var entries = [];
+		entries[0] = "<p>" +
+			"<span title='Speechiness' class='glyphicon glyphicon-comment'></span>" + ~~(s.speechiness * 100) + "%" +
+			"<span title='Acousticness' class='glyphicon glyphicon-leaf'></span>" + ~~(s.acousticness * 100) + "%" +
+			"<span title='Liveness' class='glyphicon glyphicon-eye-open'></span>" + ~~(s.liveness * 100) + "%" +
+			"<span title='Valence' class='glyphicon glyphicon-certificate'></span>" + ~~(s.valence * 100) + "%" +
+			"<span title='Energy' class='glyphicon glyphicon-fire'></span>" + ~~(s.energy * 100) + "%" +
+			"<span title='Danceability' class='glyphicon glyphicon-record'></span>" + ~~(s.danceability * 100) + "%" +
+			"</p>";
+		entries[1] = "<p>" +
+			"<em>Signature</em>: " + getPrettySignature(s.time_signature) + " | " +
+			"<em>Tempo</em>: " + Math.round(s.tempo) + " BPM | " +
+			"<em>Key</em>: " + getPrettyKey(s.key) + " | " +
+			"<em>Mode</em>: " + getPrettyMode(s.mode) +
+			"</p>";
+		entries[2] = "<p>" + "<em>Genre</em>: " + s.genre + "</p>";
+		
+		var container = $("#summary").empty();
+		for (var i = 0; i < entries.length; i++) {
+			container.append(entries[i]);
+		}
+		
+		$("#summary span").tooltip();
 	}
 	
 	
@@ -220,6 +257,27 @@
 		seconds = (seconds < 10) ? "0" + seconds : seconds;
 		
 		return minutes + ":" + seconds;
+	}
+	
+	function getPrettySignature(value) {
+		switch (value) {
+			case -1:
+				return "No";
+				break;
+			case 1:
+				return "Varied";
+				break;
+			default:
+				return value + "/7";
+		}
+	}
+	
+	function getPrettyKey(value) {
+		return ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"][value];
+	}
+	
+	function getPrettyMode(value) {
+		return (value === 0) ? "Minor" : "Major";
 	}
 	
 	function parse(data, x, y, z) {
