@@ -1,4 +1,6 @@
 [
 	{"container": "#chords3", "file": "features.tsv", "x": "time", "y": "chordNotes", "z": null, "colors": ["#EEEEEE", "#CC2A41"]},
-	{"container": "#timbre2", "file": "features.tsv", "x": "time", "y": "MFCC", "z": "MFCC", "colors": ["#00DFFC", "#000524"]}
+	{"container": "#chords5", "file": "segments.tsv", "x": "time", "y": "chordNotes", "z": null, "colors": ["#EEEEEE", "#CC2A41"]},
+	{"container": "#timbre2", "file": "features.tsv", "x": "time", "y": "MFCC", "z": "MFCC", "colors": ["#00DFFC", "#000524"]},
+	{"container": "#timbre3", "file": "segments.tsv", "x": "time", "y": "MFCC", "z": "MFCC", "colors": ["#00DFFC", "#000524"]}
 ]

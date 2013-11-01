@@ -6,5 +6,7 @@
 	{"container": "#chords4", "file": "features.tsv", "x": "time", "y": null, "z": "chordMode", "colors": ["#2E2633", "#99173C"]},
 	{"container": "#timbre1", "file": "features.tsv", "x": "time", "y": null, "z": "ZC", "colors": ["#00C7FF", "#07093D"]},
 	{"container": "#intensity1", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
-	{"container": "#intensity2", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]}
+	{"container": "#intensity2", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]},
+	{"container": "#intensity3", "file": "segments.tsv", "x": "time", "y": "dB", "z": null, "colors": ["#FF9900", "#FF9900"]},
+	{"container": "#intensity4", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]}
 ]
