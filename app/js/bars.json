@@ -1,10 +1,10 @@
 [
-	{"container": "#notes1", "file": "notes.tsv", "x": "time", "y": "noteMIDI", "z": null, "colors": ["#8A9B0F", "#8A9B0F"]},
-	{"container": "#notes2", "file": "notes.tsv", "x": "time", "y": null, "z": "noteMIDI", "colors": ["#C4ED68", "#2A5C0B"]},
-	{"container": "#chords1", "file": "chords.tsv", "x": "time", "y": "chordKey", "z": null, "colors": ["#E84A5F", "#E84A5F"]},
-	{"container": "#chords2", "file": "chords.tsv", "x": "time", "y": null, "z": "chordKey", "colors": ["#E43D82", "#452B72"]},
-	{"container": "#chords4", "file": "chords.tsv", "x": "time", "y": null, "z": "chordMode", "colors": ["#2E2633", "#99173C"]},
-	{"container": "#timbre1", "file": "ZC.tsv", "x": "time", "y": null, "z": "ZC", "colors": ["#00C7FF", "#07093D"]},
-	{"container": "#intensity1", "file": "RMS.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
-	{"container": "#intensity2", "file": "RMS.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]}
+	{"container": "#notes1", "file": "features.tsv", "x": "time", "y": "noteMIDI", "z": null, "colors": ["#8A9B0F", "#8A9B0F"]},
+	{"container": "#notes2", "file": "features.tsv", "x": "time", "y": null, "z": "noteMIDI", "colors": ["#C4ED68", "#2A5C0B"]},
+	{"container": "#chords1", "file": "features.tsv", "x": "time", "y": "chordKey", "z": null, "colors": ["#E84A5F", "#E84A5F"]},
+	{"container": "#chords2", "file": "features.tsv", "x": "time", "y": null, "z": "chordKey", "colors": ["#E43D82", "#452B72"]},
+	{"container": "#chords4", "file": "features.tsv", "x": "time", "y": null, "z": "chordMode", "colors": ["#2E2633", "#99173C"]},
+	{"container": "#timbre1", "file": "features.tsv", "x": "time", "y": null, "z": "ZC", "colors": ["#00C7FF", "#07093D"]},
+	{"container": "#intensity1", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
+	{"container": "#intensity2", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]}
 ]

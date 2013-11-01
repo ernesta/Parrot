@@ -5,6 +5,8 @@
 	var INPUT = DATA + "input/";
 	var SAMPLES = DATA + "samples.json";
 	
+	var INFO = "info.json"
+	
 	var BARS = "js/bars.json";
 	var HEATS = "js/heats.json";
 	
@@ -23,18 +25,38 @@
 	
 	
 	//// Flow ////
-	$.getJSON(SAMPLES, initApp);
+	$.getJSON(SAMPLES, loadData);
 	
 	
 	//// Functions ////
 	//// Initialization ////
-	function initApp(data) {
-		samples = data;
-		
+	function initApp() {
 		initPlayer();
-		
 		displaySamples();
-		displayCurrentSample();
+		displaySample();
+	}
+	
+	
+	//// Data ////
+	function loadData(data) {
+		samples = data;
+		extendSamples();
+	}
+	
+	function extendSamples() {
+		var counter = 0;
+		
+		for (var i = 0; i < samples.length; i++) {
+			var path = OUTPUT + samples[i].directory + INFO;
+			
+			$.getJSON(path, function(sample) {
+				$.extend(samples[counter], sample);
+				
+				if (++counter === samples.length) {
+					initApp();
+				}
+			});
+		}
 	}
 	
 	
@@ -49,15 +71,15 @@
 		});
 	}
 	
-	function displayCurrentSample() {
+	function displaySample() {
 		displayMetadata();
 		displayFeatures();
 	}
 	
 	function changeSample(key) {
 		currentKey = key;
-		displayCurrentSample();
 		
+		displaySample();
 		loadSample();
 	}
 	
@@ -69,8 +91,8 @@
 		
 		var entries = [];
 		entries[0] = "<p><a href='" + s.URL + "'>" + s.title + "</a> by " + s.artist + "</p>";
-		entries[1] = "<p>" + s.album + " (" + s.year + ")</p>";
-		entries[2] = "<p><em>Time</em>: " + s.time + " | <em>Size</em>: " + s.size + " | <em>Bit rate</em>: " + s.bitRate + "</p>";
+		entries[1] = "<p>" + s.album + "</p>";
+		entries[2] = "<p><em>Time</em>: " + getPrettyTime(s.duration) + " | <em>Sample rate</em>: " + s.sample_rate / 1000 + "kHz | <em>Bit rate</em>: " + s.bitrate + "kb/s </p>";
 		
 		var container = $(".info").empty();
 		for (var i = 0; i < entries.length; i++) {
@@ -190,6 +212,14 @@
 			container: config.container,
 			colors: config.colors
 		};
+	}
+	
+	function getPrettyTime(time) {
+		minutes = ~~(time / 60);
+		seconds = ~~(time % 60);
+		seconds = (seconds < 10) ? "0" + seconds : seconds;
+		
+		return minutes + ":" + seconds;
 	}
 	
 	function parse(data, x, y, z) {

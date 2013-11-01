@@ -35,7 +35,7 @@ def retrievePendingSummary(echo, id):
 	return response["track"]["audio_summary"]
 
 
-def getCleanSummary(summary, analysis):
+def getCleanSummary(summary, analysis, path):
 	cleanSummary = dict(summary)
 	del cleanSummary["analysis_url"]
 	
@@ -47,6 +47,8 @@ def getCleanSummary(summary, analysis):
 	cleanSummary["genre"] = meta["genre"]
 	cleanSummary["bitrate"] = meta["bitrate"]
 	cleanSummary["sample_rate"] = meta["sample_rate"]
+	
+	cleanSummary["filename"] = path.split("/")[-1]
 	
 	return cleanSummary
 

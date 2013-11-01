@@ -9,12 +9,14 @@ import os
 ## Constants ##
 SCRIPTS, SCRIPT = os.path.split(os.path.abspath(__file__))
 DATA = u"{}/../data".format(SCRIPTS)
-SAMPLES = u"{}/samples.txt".format(DATA)
+SAMPLES = u"{}/samples".format(DATA)
 INPUT = u"{}/input".format(DATA)
 OUTPUT = u"{}/output".format(DATA)
+INFO = u"info"
 
 FILENAME = u"{}/{}"
 
+FEATURES = u"features"
 MFCC = u"MFCC"
 ZC = u"ZC"
 TIMES = u"times"
@@ -53,7 +55,7 @@ def extractAllFeatures(directory, audio):
 	rms = mir.getCleanRMS(frames)
 	
 	features = utils.combineLists([times, mfcc, zc, notes, chords, rms])
-	filename = FILENAME.format(directory, u"features")
+	filename = FILENAME.format(directory, FEATURES)
 	utils.writeData(features, filename)
 
 
@@ -94,7 +96,7 @@ def extractEchoFeatures(directory, path):
 	echoSummary = nest.retrieveSummary(echo, path)
 	echoAnalysis = nest.retrieveAnalysis(echoSummary["analysis_url"])
 	
-	formattedSummary = nest.getCleanSummary(echoSummary, echoAnalysis)
+	formattedSummary = nest.getCleanSummary(echoSummary, echoAnalysis, path)
 	formattedAnalysis = nest.getCleanAnalysis(echoAnalysis)
 	
 	# Writes feature data
@@ -103,15 +105,15 @@ def extractEchoFeatures(directory, path):
 		utils.writeData(value, filename)
 	
 	# Writes summary data
-	filename = FILENAME.format(directory, u"info")
+	filename = FILENAME.format(directory, INFO)
 	utils.writeJSON(formattedSummary, filename)
 
 
 
 ## Flow ##
-filenames = utils.loadListFromFile(SAMPLES)
+samples = []
 
-for filename in filenames:
+for filename in utils.loadListFromFile("{}.txt".format(SAMPLES)):
 	# Loads the file for MIR and metadata extraction
 	path = FILENAME.format(INPUT, filename)
 	
@@ -125,18 +127,23 @@ for filename in filenames:
 	summary = metadata.getSummary(meta)
 	utils.printToConsole(summary)
 	
-	# Creates a directory for storing audio feature data
-	ID = metadata.getArtist(meta) + metadata.getTitle(meta)
-	directory = FILENAME.format(OUTPUT, utils.getHash(ID))
+	# Creates a directory for storing audio data
+	ID = utils.getHash(metadata.getArtist(meta) + metadata.getTitle(meta))
+	directory = FILENAME.format(OUTPUT, ID)
 	utils.createDirectory(directory)
 	
-	# Writes human-readable metadata information
-	filename = FILENAME.format(directory, u"info")
-	utils.writeText(summary, filename)
+	# Extracts metadata for saving in samples.json
+	samples.append({
+		"title": metadata.getTitle(meta),
+		"artist": metadata.getArtist(meta),
+		"directory": u"{}/".format(ID)
+	})
 	
 	# Extracts feature information
 #	extractIndividualFeatures(directory, audio)
-#	extractAllFeatures(directory, audio)
+	extractAllFeatures(directory, audio)
 	
 	# Extracts Echo Nest feature information
 	extractEchoFeatures(directory, path)
+
+utils.writeJSON(samples, SAMPLES)
