@@ -50,6 +50,10 @@ a:focus {
 	background: #3080A3;
 }
 
+.navbar-nav> li > .dropdown-menu {
+	margin-top: 3px;
+}
+
 .progress {
 	height: 3px;
 	margin: 0;
@@ -59,7 +63,7 @@ a:focus {
 /* Metadata */
 .meta {
 	margin-top: 5px;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 }
 
 .meta img, .controls {
@@ -76,18 +80,22 @@ a:focus {
 	float: left;
 }
 
-.info p, #summary p {
+.info p, .summary p {
 	margin: 0;
 	font-size: 12px;
 }
 
-#summary p:first-child {
+.summary p:first-child {
 	margin-left: -12px;
 }
 
-#summary span {
+.summary span {
 	margin-left: 12px;
 	margin-right: 4px;
+}
+
+.row > div {
+	margin-bottom: 20px;
 }
 
 

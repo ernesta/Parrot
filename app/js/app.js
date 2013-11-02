@@ -131,12 +131,12 @@
 			"</p>";
 		entries[2] = "<p>" + "<em>Genre</em>: " + s.genre + "</p>";
 		
-		var container = $("#summary").empty();
+		var container = $(".summary").empty();
 		for (var i = 0; i < entries.length; i++) {
 			container.append(entries[i]);
 		}
 		
-		$("#summary span").tooltip();
+		$(".summary span").tooltip();
 	}
 	
 	function toggleProgress(on) {
