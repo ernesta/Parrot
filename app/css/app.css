@@ -21,7 +21,8 @@ a:focus {
 	border-color: #011A25;
 }
 
-.navbar .navbar-brand {
+.navbar-brand {
+	padding: 10px;
 	color: #DCDCDC;
 }
 
