@@ -8,5 +8,7 @@
 	{"container": "#intensity1", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
 	{"container": "#intensity2", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]},
 	{"container": "#intensity3", "file": "segments.tsv", "x": "time", "y": "dB", "z": null, "colors": ["#FF9900", "#FF9900"]},
-	{"container": "#intensity4", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]}
+	{"container": "#intensity4", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]},
+	{"container": "#beats1", "file": "beats.tsv", "x": "time", "y": "type", "z": null, "colors": ["#7A6A53", "#7A6A53"]},
+	{"container": "#beats2", "file": "beats.tsv", "x": "time", "y": null, "z": "type", "colors": ["#D9CEB2", "#7A6A53"]}
 ]
