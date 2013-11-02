@@ -116,13 +116,7 @@ def formatRMS(values):
 
 ## Analysis ##
 def formatAnalysis(values):
-	bars = [[u"bar"]]
-	for value in values["bars"]:
-		bars.append([value["start"]])
-	
-	beats = [[u"beats"]]
-	for value in values["beats"]:
-		beats.append([value["start"]])
+	beats = formatBeats(values["beats"], values["bars"])
 	
 	segments = [[u"time", u"chordNotes", u"MFCC", u"dB"]]
 	for value in values["segments"]:
@@ -133,10 +127,25 @@ def formatAnalysis(values):
 		sections.append([value["start"], value["loudness"], value["tempo"], value["key"], value["mode"]])
 	
 	formatted = {
-		"bars": bars,
 		"beats": beats,
 		"segments": segments,
 		"sections": sections
 	}
+	
+	return formatted
+
+
+def formatBeats(beats, bars):
+	formatted = [[u"time", u"type"]]
+	
+	i = 0
+	for j in range(0, len(beats)):
+		beat = beats[j]["start"]
+		
+		if (i < len(bars)) and (beat == bars[i]["start"]):
+			formatted.append([beat, 2])
+			i = i + 1
+		else:
+			formatted.append([beat, 1])
 	
 	return formatted
