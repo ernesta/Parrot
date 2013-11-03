@@ -118,7 +118,7 @@ def formatRMS(values):
 def formatAnalysis(values):
 	beats = formatBeats(values["beats"], values["bars"])
 	
-	segments = [[u"time", u"chordNotes", u"MFCC", u"dB"]]
+	segments = [[u"time", u"chroma", u"timbre", u"dB"]]
 	for value in values["segments"]:
 		segments.append([value["start"], value["pitches"], value["timbre"], value["loudness_start"]])
 	
