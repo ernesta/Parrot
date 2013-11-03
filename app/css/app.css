@@ -10,7 +10,8 @@ a:hover {
 	text-decoration: none;
 }
 
-a:focus {
+a:focus,
+button:focus {
 	outline: none;
 }
 
@@ -22,8 +23,18 @@ a:focus {
 }
 
 .navbar-brand {
-	padding: 10px;
-	color: #DCDCDC;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.navbar-brand div {
+	width: 51px;
+	height: 51px;
+	padding: 9px 8px;
+}
+
+.navbar-toggle span {
+	background: #DCDCDC;
 }
 
 .nav a,
@@ -53,6 +64,12 @@ a:focus {
 
 .navbar-nav> li > .dropdown-menu {
 	margin-top: 3px;
+}
+
+@media (max-width: 767px) {
+	.dropdown-menu > li > a {
+		color: #DCDCDC;
+	}
 }
 
 .progress {
