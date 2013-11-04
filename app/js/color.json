@@ -1,14 +1,9 @@
 [
-	{"container": "#notes1", "file": "features.tsv", "x": "time", "y": "noteMIDI", "z": null, "colors": ["#8A9B0F", "#8A9B0F"]},
 	{"container": "#notes2", "file": "features.tsv", "x": "time", "y": null, "z": "noteMIDI", "colors": ["#C4ED68", "#2A5C0B"]},
-	{"container": "#chords1", "file": "features.tsv", "x": "time", "y": "chordKey", "z": null, "colors": ["#E84A5F", "#E84A5F"]},
 	{"container": "#chords2", "file": "features.tsv", "x": "time", "y": null, "z": "chordKey", "colors": ["#E43D82", "#452B72"]},
 	{"container": "#chords4", "file": "features.tsv", "x": "time", "y": null, "z": "chordMode", "colors": ["#2E2633", "#99173C"]},
 	{"container": "#timbre1", "file": "features.tsv", "x": "time", "y": null, "z": "ZC", "colors": ["#00C7FF", "#07093D"]},
-	{"container": "#intensity1", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
 	{"container": "#intensity2", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]},
-	{"container": "#intensity3", "file": "segments.tsv", "x": "time", "y": "dB", "z": null, "colors": ["#FF9900", "#FF9900"]},
 	{"container": "#intensity4", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]},
-	{"container": "#beats1", "file": "beats.tsv", "x": "time", "y": "type", "z": null, "colors": ["#7A6A53", "#7A6A53"]},
 	{"container": "#beats2", "file": "beats.tsv", "x": "time", "y": null, "z": "type", "colors": ["#D9CEB2", "#7A6A53"]}
 ]

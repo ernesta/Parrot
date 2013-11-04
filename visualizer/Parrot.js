@@ -2,13 +2,25 @@ var Parrot = (function($) {
 	//// Constants ////
 	var DIMENSIONS = ["x", "y", "z"];
 	
+	var COLORS = [
+		"rgb(216, 15, 15)",
+		"rgb(134, 134, 0)",
+		"rgb(0, 151, 0)",
+		"rgb(0, 143, 143)",
+		"rgb(81, 81, 253)",
+		"rgb(183, 0, 183)"
+	];
+	
+	var PEAKS = 0;
+	var MATRIX = 1;
+	
 	
 	//// Properties ////
 	var config = {
 		container: "#graph",
 		colors: ["#FFFFFF", "#000000"],
-		startCallback: function() {},
-		doneCallback: function() {}
+		onStart: function() {},
+		onFinish: function() {}
 	};
 	
 	var props = {
@@ -17,34 +29,35 @@ var Parrot = (function($) {
 		margin: {top: 20, right: 20, bottom: 20, left: 20}
 	};
 	
-	var scale = {
-		x: {},
-		y: {},
-		z: {}
-	};
+	var scale = {};
 	
 	
 	//// Public ////
 	function init(conf) {
 		setConfig(conf);
-		
 		setProperties();
-		setScale();
 		
 		cleanCanvas();
 	}
 	
-	function BarChart(data) {
-		config.startCallback();
-		
-		setDomain(data);
-		drawBarChart(data);
+	function FeatureByHeight(data) {
+		drawFeature(data, PEAKS);
 	}
 	
-	function Heatmap(data) {
-		config.startCallback();
+	function FeatureByColor(data) {
+		drawFeature(data, PEAKS);
+	}
+	
+	function FeatureByPosition(data) {
+		drawFeature(data, MATRIX);
+	}
+	
+	function Fingerprint(data) {
+		config.onStart();
 		
-		setDomain(data);
+		setFingerprintRange();
+		setFingerprintDomain(data);
+		
 		drawHeatmap(data);
 	}
 	
@@ -54,47 +67,60 @@ var Parrot = (function($) {
 		d3.select(config.container + " svg").remove();
 	}
 	
-	function drawBarChart(data) {
+	function drawFeature(data, type) {
+		config.onStart();
+		
+		setFeatureRange();
+		setFeatureDomain(data);
+		
+		switch (type) {
+			case PEAKS:
+				drawPeaks(data);
+				break;
+			default:
+				drawMatrix(data);
+		}
+	}
+	
+	function drawPeaks(data) {
 		var svg = createSVG();
 		
-		svg.selectAll(config.container + " .bar")
+		svg.selectAll(config.container + " .peak")
 			.data(data)
 			.enter()
 			.append("svg:rect")
-			.attr("class", "bar")
+			.attr("class", "peak")
 			.attr("x", function(d) { return scale.x(d.x); })
 			.attr("y", function(d) { return scale.y(d.y); })
 			.attr("width", props.width / data.length)
 			.attr("height", function(d) { return props.height - scale.y(d.y); })
-			.style("fill", function(d) { return d3.interpolateRgb(config.colors[0], config.colors[1])(scale.z(d.z)); });
+			.style("fill", function(d) { return scale.z(d.z); });
 		
-		config.doneCallback();
+		config.onFinish();
+	}
+	
+	function drawMatrix(data) {
+		var svg = createSVG();
+		var column = createColumn(svg, data);
+		var row = createRow(column, data);
+		
+		row
+			.attr("width", props.width / data.length)
+			.style("fill", function(d) { return scale.z(d); });
+		
+		config.onFinish();
 	}
 	
 	function drawHeatmap(data) {
 		var svg = createSVG();
+		var column = createColumn(svg, data);
+		var row = createRow(column, data);
 		
-		var h = props.height / data[0].y.length;
-		var w = props.width / data.length;
+		row
+			.attr("width", function(d) { return scale.x(d.width); })
+			.style("fill", function(d) { return computeColor(scale.y(d.value), d.level); });
 		
-		var column = svg.selectAll(config.container + " .heat")
-			.data(data)
-			.enter()
-			.append("g")
-			.attr("class", "heat")
-			.attr("transform", function(d) { return "translate(" + scale.x(d.x) + ", 0)"; });
-		
-		var row = column.selectAll(config.container + " .cell")
-			.data(function(d) { return d.y; })
-			.enter()
-			.append("svg:rect")
-			.attr("class", "cell")
-			.attr("y", function(d, i) { return i * h; })
-			.attr("width", w)
-			.attr("height", h)
-			.style("fill", function(d) { return d3.interpolateRgb(config.colors[0], config.colors[1])(scale.z(d)); });
-		
-		config.doneCallback();
+		config.onFinish();
 	}
 	
 	function createSVG() {
@@ -104,6 +130,32 @@ var Parrot = (function($) {
 			.attr("height", props.height + props.margin.top + props.margin.bottom)
 			.append("svg:g")
 			.attr("transform", "translate(" + props.margin.left + "," + props.margin.top + ")");
+	}
+	
+	function createColumn(svg, data) {
+		return svg.selectAll(config.container + " .peak")
+			.data(data)
+			.enter()
+			.append("g")
+			.attr("class", "peak")
+			.attr("transform", function(d) { return "translate(" + scale.x(d.x) + ", 0)"; });
+	}
+	
+	function createRow(column, data) {
+		var height = props.height / data[0].y.length;
+		
+		return column.selectAll(config.container + " .cell")
+			.data(function(d) { return d.y; })
+			.enter()
+			.append("svg:rect")
+			.attr("class", "cell")
+			.attr("y", function(d, i) { return i * height; })
+			.attr("height", height);
+	}
+	
+	function computeColor(value, level) {
+		var color = d3.rgb(scale.z(value));
+		return (level > 0.5) ? color.darker(level - 0.5) : color.brighter(0.5 - level);
 	}
 	
 	
@@ -128,13 +180,19 @@ var Parrot = (function($) {
 			props.margin.bottom;
 	}
 	
-	function setScale() {
+	function setFeatureRange() {
 		scale.x = d3.scale.linear().range([0, props.width]);
 		scale.y = d3.scale.linear().range([props.height, 0]);
-		scale.z = d3.scale.linear().range([0, 1]);
+		scale.z = d3.scale.linear().range(config.colors);
 	}
 	
-	function setDomain(data) {
+	function setFingerprintRange() {
+		scale.x = d3.scale.linear().range([0, props.width]);
+		scale.y = d3.scale.linear().range([0, 1]);
+		scale.z = d3.scale.linear().range(COLORS);
+	}
+	
+	function setFeatureDomain(data) {
 		for (var i = 0; i < DIMENSIONS.length; i++) {
 			var dim = DIMENSIONS[i];
 			
@@ -148,13 +206,28 @@ var Parrot = (function($) {
 				scale[dim].domain([--scale[dim].domain()[0], scale[dim].domain()[1]]);
 			}
 		}
-	}	
+	}
+	
+	function setFingerprintDomain(data) {
+		var last = data[data.length - 1];
+		var end = last.x + last.y[0].width;
+		
+		scale.x.domain([0, end]);
+		scale.y.domain([d3.min(data, function(d) {
+			return d.y[0].value;
+		}), d3.max(data, function(d) {
+			return d.y[0].value;
+		})]);
+		scale.z.domain([0, 0.2, 0.4, 0.6, 0.8, 1]);
+	}
 	
 	
 	//// Definition ////
 	return {
 		init: init,
-		BarChart: BarChart,
-		Heatmap: Heatmap
+		FeatureByHeight: FeatureByHeight,
+		FeatureByColor: FeatureByColor,
+		FeatureByPosition: FeatureByPosition,
+		Fingerprint: Fingerprint
 	};
 })(jQuery);

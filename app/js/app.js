@@ -7,21 +7,25 @@
 	
 	var INFO = "info.json"
 	
-	var BARS = "js/bars.json";
-	var HEATS = "js/heats.json";
+	var FEATURE = {
+		HEIGHT: "js/height.json",
+		COLOR: "js/color.json",
+		POSITION: "js/position.json"
+	};
 	
-	var BAR_CHART = 0;
-	var HEATMAP = 1;
+	var TYPE = {
+		HEIGHT: 0,
+		COLOR: 1,
+		POSITION: 2
+	};
 	
 	
 	//// Attributes ////
-	var currentKey = 0;
-	var featureCounter = 0;
-	var featureCount = 0;
-	
 	var samples = [];
-	var bars = [];
-	var heats = [];
+	var currentKey = 0;
+	
+	var graphCount = 0;
+	var loadCount = 0;
 	
 	var player = {};
 	
@@ -75,6 +79,7 @@
 	
 	function displaySample() {
 		displayMetadata();
+		displayFingerprint();
 		displayFeatures();
 	}
 	
@@ -140,11 +145,8 @@
 	}
 	
 	function toggleProgress(on) {
-		if (on) {
-			$(".progress").css("visibility", "visible");
-		} else {
-			$(".progress").css("visibility", "hidden");
-		}
+		var visibility = on ? "visible" : "hidden";
+		$(".progress").css("visibility", visibility);
 	}
 	
 	
@@ -191,26 +193,83 @@
 	
 	
 	//// Visualization ////
+	function displayFingerprint() {
+		graphCount++;
+		
+		var filename = OUTPUT + samples[currentKey].directory + "segments.tsv";
+		d3.tsv(filename, function(error, data) {
+			var config = createConfig({ container: "#finger1" });
+			
+			var input = [];
+			for (var i = 0; i < data.length; i++) {
+				input[i] = {};
+				
+				var period = computePeriod(i, data);
+				var timbre = computeTimbre(JSON.parse(data[i].timbre));
+				var chroma = JSON.parse(data[i].chroma);
+				
+				input[i].x = JSON.parse(data[i].time);
+				input[i].y = [];
+				
+				for (var j = 0; j < chroma.length; j++) {
+					input[i].y[j] = {
+						width: period,
+						value: timbre,
+						level: chroma[j]
+					};
+				}
+			}
+			
+			Parrot.init(config);
+			Parrot.Fingerprint(input);
+		});
+	}
+	
+	function computePeriod(i, data) {
+		if (i === data.length - 1) {
+			return samples[currentKey].duration - JSON.parse(data[i].time);
+		} else {
+			return JSON.parse(data[i + 1].time) - JSON.parse(data[i].time);
+		}
+	}
+	
+	function computeTimbre(values) {
+		var timbre = 0;
+		var coefficient = values.length;
+		
+		for (var i = 0; i < values.length; i++) {
+			timbre += values[i] * coefficient;
+			coefficient--;
+		}
+		
+		return timbre;
+	}
+	
 	function displayFeatures() {
-		$.getJSON(BARS, loadBars);
-		$.getJSON(HEATS, loadHeats);
+		$.getJSON(FEATURE.HEIGHT, loadHeight);
+		$.getJSON(FEATURE.COLOR, loadColor);
+		$.getJSON(FEATURE.POSITION, loadPosition);
 	}
 	
-	function loadBars(data) {
-		bars = data;
-		visualize(bars, BAR_CHART);
+	function loadHeight(data) {
+		graphCount += data.length;
+		visualize(data, TYPE.HEIGHT);
 	}
 	
-	function loadHeats(data) {
-		heats = data;
-		visualize(heats, HEATMAP);
+	function loadColor(data) {
+		graphCount += data.length;
+		visualize(data, TYPE.COLOR);
+	}
+	
+	function loadPosition(data) {
+		graphCount += data.length;
+		visualize(data, TYPE.POSITION);
 	}
 	
 	function visualize(features, type) {
 		for (var i = 0; i < features.length; i++) {
 			(function(i) {
 				var filename = OUTPUT + samples[currentKey].directory + features[i].file;
-				
 				d3.tsv(filename, function(error, data) {
 					var bar = features[i];
 					
@@ -219,10 +278,15 @@
 					
 					Parrot.init(config);
 					
-					if (type === BAR_CHART) {
-						Parrot.BarChart(input);
-					} else {
-						Parrot.Heatmap(input);
+					switch (type) {
+						case TYPE.HEIGHT:
+							Parrot.FeatureByHeight(input);
+							break;
+						case TYPE.COLOR:
+							Parrot.FeatureByColor(input);
+							break;
+						default:
+							Parrot.FeatureByPosition(input);
 					}
 				});
 			})(i);
@@ -246,20 +310,18 @@
 	}
 	
 	function onDrawingStarted() {
-		if (featureCount === 0) {
-			featureCount = bars.length + heats.length;
-			
+		if (graphCount === 0) {
 			toggleProgress(true);
 			cleanAllGraphs();
 		}
 	}
 	
 	function onDrawingDone() {
-		featureCounter++;
+		loadCount++;
 		
-		if (featureCounter === featureCount) {
-			featureCounter = 0;
-			featureCount = 0;
+		if (loadCount === graphCount) {
+			loadCount = 0;
+			graphCount = 0;
 			
 			toggleProgress(false);
 		}
@@ -279,13 +341,21 @@
 	
 	
 	//// Utilities ////
-	function createConfig(config) {
-		return {
-			container: config.container,
-			colors: config.colors,
-			startCallback: onDrawingStarted,
-			doneCallback: onDrawingDone
+	function createConfig(conf) {
+		var config = {
+			onStart: onDrawingStarted,
+			onFinish: onDrawingDone
 		};
+		
+		if (conf.container !== undefined) {
+			config.container = conf.container;
+		}
+		
+		if (conf.colors !== undefined) {
+			config.colors = conf.colors;
+		}
+		
+		return config;
 	}
 	
 	function getPrettyTime(time) {
