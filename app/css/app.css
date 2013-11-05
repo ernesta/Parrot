@@ -135,7 +135,7 @@ button:focus {
 	color: #F9D423;
 }
 
-.stop {
+.play, .stop {
 	display: none;
 }
 
@@ -154,9 +154,4 @@ button:focus {
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* Fingerprints */
-#finger1 {
-	height: 300px;
 }

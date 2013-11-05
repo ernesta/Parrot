@@ -2,20 +2,11 @@ var Parrot = (function($) {
 	//// Constants ////
 	var DIMENSIONS = ["x", "y", "z"];
 	
-	var COLORS = [
-		"rgb(216, 15, 15)",
-		"rgb(134, 134, 0)",
-		"rgb(0, 151, 0)",
-		"rgb(0, 143, 143)",
-		"rgb(81, 81, 253)",
-		"rgb(183, 0, 183)"
-	];
-	
 	var PEAKS = 0;
 	var MATRIX = 1;
 	
 	
-	//// Properties ////
+	//// Attributes ////
 	var config = {
 		container: "#graph",
 		colors: ["#FFFFFF", "#000000"],
@@ -155,7 +146,12 @@ var Parrot = (function($) {
 	
 	function computeColor(value, level) {
 		var color = d3.rgb(scale.z(value));
-		return (level > 0.5) ? color.darker(level - 0.5) : color.brighter(0.5 - level);
+		
+		if (level > 0.8) {
+			return color.darker(level - 0.8);
+		} else {
+			return "none";
+		}
 	}
 	
 	
@@ -189,7 +185,7 @@ var Parrot = (function($) {
 	function setFingerprintRange() {
 		scale.x = d3.scale.linear().range([0, props.width]);
 		scale.y = d3.scale.linear().range([0, 1]);
-		scale.z = d3.scale.linear().range(COLORS);
+		scale.z = d3.scale.linear().range(config.colors);
 	}
 	
 	function setFeatureDomain(data) {
@@ -218,7 +214,20 @@ var Parrot = (function($) {
 		}), d3.max(data, function(d) {
 			return d.y[0].value;
 		})]);
-		scale.z.domain([0, 0.2, 0.4, 0.6, 0.8, 1]);
+		scale.z.domain(generateList(0, 1, config.colors.length));
+	}
+	
+	
+	//// Utils ////
+	function generateList(start, end, length) {
+		var list = [];
+		var step = (end - start) / (length - 1);
+		
+		for (var i = 0; i < length; i++) {
+			list[i] = start + i * step;
+		}
+		
+		return list;
 	}
 	
 	

@@ -8,6 +8,9 @@ secrets.py
 # .htaccess
 .htaccess
 
+# Tracks
+data
+
 # Python stuff
 *.pyc
 
