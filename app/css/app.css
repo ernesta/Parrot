@@ -135,7 +135,7 @@ button:focus {
 	color: #F9D423;
 }
 
-.play, .stop {
+.stop {
 	display: none;
 }
 
