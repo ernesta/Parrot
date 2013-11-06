@@ -8,9 +8,6 @@ var Constants = {
 		OUTPUT: "../data/output/",
 	},
 	VISUALIZATIONS: {
-		COLOR: "js/config/color.json",
-		HEIGHT: "js/config/height.json",
-		POSITION: "js/config/position.json",
-		FINGERPRINT: "js/config/fingerprint.json",
+		EXPLORE: "config/explore.json"
 	}
 };

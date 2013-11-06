@@ -1,10 +1,14 @@
 var Visualizer = (function($) {
 	//// Constants ////
 	var TYPE = {
-		HEIGHT: 0,
-		COLOR: 1,
-		POSITION: 2,
-		FINGERPRINT: 3
+		FINGERPRINT: 0,
+		FEATURE: 1
+	};
+	
+	var FEATURE = {
+		HEIGHT: "height",
+		COLOR: "color",
+		POSITION: "position"
 	};
 	
 	
@@ -25,47 +29,28 @@ var Visualizer = (function($) {
 		setConfig(c);
 	}
 	
-	function displayFingerprints(t) {
+	function displayExplore(t) {
 		track = t;
-		
-		$.getJSON(Constants.VISUALIZATIONS.FINGERPRINT, loadFingerprint);
+		$.getJSON(Constants.VISUALIZATIONS.EXPLORE, loadExplore);
 	}
-	
-	function displayFeatures(t) {
-		track = t;
-		
-		$.getJSON(Constants.VISUALIZATIONS.HEIGHT, loadHeight);
-		$.getJSON(Constants.VISUALIZATIONS.COLOR, loadColor);
-		$.getJSON(Constants.VISUALIZATIONS.POSITION, loadPosition);
-	}
-	
+			
 	function cleanCanvas() {
 		$("svg").remove();
 	}
 	
 	
-	//// Private ////
-	function loadHeight(data) {
-		graphCount += data.length;
-		visualize(data, TYPE.HEIGHT);
-	}
-	
-	function loadColor(data) {
-		graphCount += data.length;
-		visualize(data, TYPE.COLOR);
-	}
-	
-	function loadPosition(data) {
-		graphCount += data.length;
-		visualize(data, TYPE.POSITION);
-	}
-	
-	function loadFingerprint(data) {
-		graphCount += data.length;
-		visualize(data, TYPE.FINGERPRINT);
-	}
-	
+	//// Visualizing ////
+	function loadExplore(data) {
+		var fingerprints = flattenByRows(data.fingerprints);
+		var features = flattenByRows(data.features);
 		
+		graphCount += fingerprints.length;
+		graphCount += features.length;
+		
+		visualize(fingerprints, TYPE.FINGERPRINT);
+		visualize(features, TYPE.FEATURE);
+	}
+	
 	function visualize(items, type) {
 		for (var i = 0; i < items.length; i++) {
 			(function(i) {
@@ -77,18 +62,21 @@ var Visualizer = (function($) {
 					var input = [];
 					
 					Parrot.init(config);
+					
 					switch (type) {
-						case TYPE.HEIGHT:
+						case TYPE.FEATURE:
 							input = parseFeature(data, item.x, item.y, item.z);
-							Parrot.FeatureByHeight(input);
-							break;
-						case TYPE.COLOR:
-							input = parseFeature(data, item.x, item.y, item.z);
-							Parrot.FeatureByColor(input);
-							break;
-						case TYPE.POSITION:
-							input = parseFeature(data, item.x, item.y, item.z);
-							Parrot.FeatureByPosition(input);
+							switch (item.type) {
+								case FEATURE.HEIGHT:
+									Parrot.FeatureByHeight(input);
+									break;
+								case FEATURE.COLOR:
+									Parrot.FeatureByColor(input);
+									break;
+								case FEATURE.POSITION:
+									Parrot.FeatureByPosition(input);
+									break;
+							}
 							break;
 						default:
 							input = parseFingerprint(data, item.x, item.y, item.z);
@@ -97,6 +85,19 @@ var Visualizer = (function($) {
 				});
 			})(i);
 		}
+	}
+	
+	
+	//// Data ////
+	function flattenByRows(rows) {
+		var flattened = [];
+		for (var i = 0; i < rows.length; i++) {
+			for (var j = 0; j < rows[i].length; j++) {
+				flattened.push(rows[i][j]);
+			}
+		}
+		
+		return flattened;
 	}
 		
 	function parseFeature(data, x, y, z) {
@@ -183,8 +184,7 @@ var Visualizer = (function($) {
 		
 	return {
 		init: init,
-		displayFingerprints: displayFingerprints,
-		displayFeatures: displayFeatures,
+		displayExplore: displayExplore,
 		cleanCanvas: cleanCanvas
 	};
 })(jQuery);

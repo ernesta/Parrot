@@ -1,9 +1,0 @@
-[
-	{"container": "#notes2", "file": "features.tsv", "x": "time", "y": null, "z": "noteMIDI", "colors": ["#C4ED68", "#2A5C0B"]},
-	{"container": "#chords2", "file": "features.tsv", "x": "time", "y": null, "z": "chordKey", "colors": ["#E43D82", "#452B72"]},
-	{"container": "#chords4", "file": "features.tsv", "x": "time", "y": null, "z": "chordMode", "colors": ["#2E2633", "#99173C"]},
-	{"container": "#timbre1", "file": "features.tsv", "x": "time", "y": null, "z": "ZC", "colors": ["#00C7FF", "#07093D"]},
-	{"container": "#intensity2", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]},
-	{"container": "#intensity4", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]},
-	{"container": "#beats2", "file": "beats.tsv", "x": "time", "y": null, "z": "type", "colors": ["#D9CEB2", "#7A6A53"]}
-]

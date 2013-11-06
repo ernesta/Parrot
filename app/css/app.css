@@ -141,12 +141,12 @@ button:focus {
 
 
 /* Features */
-.feature > p {
+.graph > p {
 	color: #555;
 	font-size: 12px;
 }
 
-.feature > div {
+.graph > div {
 	height: 200px;
 	margin-bottom: 30px;
 	background-color: #F8F8FF;

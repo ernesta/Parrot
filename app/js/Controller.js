@@ -81,9 +81,7 @@
 		
 		UI.displayTrackInfo(track);
 		loadPlayerMedia();
-		
-		Visualizer.displayFingerprints(track);
-		Visualizer.displayFeatures(track);
+		Visualizer.displayExplore(track);
 	}
 	
 	
