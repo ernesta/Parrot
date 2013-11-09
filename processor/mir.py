@@ -1,5 +1,4 @@
 import formatter
-import numpy
 from pymir import AudioFile
 from pymir import Pitch
 from pymir import Onsets
@@ -8,7 +7,6 @@ from pymir import Frame
 
 
 ## Constants ##
-FRAME = pow(2, 14);
 FILTERS = 40
 DIMENSIONS = 12
 
@@ -29,12 +27,12 @@ def getCleanMFCC(spectra):
 	return MFCC
 
 
-def getCleanZeroCrossings(frames):
-	zeroCrossings = getZeroCrossings(frames)
-	zeroCrossings = formatter.normaliseList(zeroCrossings)
-	zeroCrossings = formatter.formatZC(zeroCrossings)
+def getCleanZC(frames):
+	ZC = getZC(frames)
+	ZC = formatter.normaliseList(ZC)
+	ZC = formatter.formatZC(ZC)
 	
-	return zeroCrossings
+	return ZC
 
 
 def getCleanTimes(times):
@@ -73,15 +71,6 @@ def getOnsetFrames(audio, onsets):
 	return audio.framesFromOnsets(onsets)
 
 
-def getFixedFrames(audio, frameSize):
-	window = numpy.hamming
-	
-	frames = audio.frames(frameSize, window)
-	frames.pop()
-	
-	return frames
-
-
 def getSpectra(frames):
 	return [frame.spectrum() for frame in frames]
 
@@ -110,7 +99,7 @@ def getMFCC(spectra):
 	return [spectrum.mfcc2(numFilters = FILTERS) for spectrum in spectra]
 
 
-def getZeroCrossings(frames):
+def getZC(frames):
 	return [frame.zcr() for frame in frames]
 
 
@@ -137,15 +126,6 @@ def getChords(spectra):
 
 
 
-## Intensity ##
+## Loudness ##
 def getRMS(frames):
 	return [frame.rms() for frame in frames]
-
-
-
-## Statistics ##
-def getChordMood(chords):
-	modes = [chord["mode"] for chord in chords]
-	mood = float(sum(modes)) / len(modes)
-	
-	return mood

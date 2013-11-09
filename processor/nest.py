@@ -7,57 +7,60 @@ import urllib2
 
 
 
+## Constants ##
+READ = u"rb"
+
+
+
 def initialize():
 	return pyen.Pyen(secrets.ECHO_NEST_KEY)
 
 
 def retrieveSummary(echo, path):
-	f = open(path, "rb")
-	response = echo.post("track/upload", track = f, filetype = "mp3")
-	id = response["track"]["id"]
-	
-	return retrievePendingSummary(echo, id)
-
-
-def retrieveAnalysis(URL):
-	response = urllib2.urlopen(URL)
-	return json.load(response)
+	with open(path, READ) as file:
+		response = echo.post(u"track/upload", track = file, filetype = u"mp3")
+		id = response[u"track"][u"id"]
+		
+		return retrievePendingSummary(echo, id)
 
 
 def retrievePendingSummary(echo, id):
 	while True:
-		response = echo.get("track/profile", id = id, bucket = ["audio_summary"])
-		
-		if response["track"]["status"] <> "pending":
+		response = echo.get(u"track/profile", id = id, bucket = [u"audio_summary"])
+		if response[u"track"][u"status"] <> u"pending":
 			break
 		time.sleep(1)
 	
-	return response["track"]["audio_summary"]
+	return response[u"track"][u"audio_summary"]
 
 
-def getCleanSummary(summary, analysis, path):
+def retrieveAnalysis(URL):
+	response = urllib2.urlopen(URL)
+	
+	return json.load(response)
+
+
+def getCleanSummary(summary, analysis, meta, path):
 	cleanSummary = dict(summary)
-	del cleanSummary["analysis_url"]
+	del cleanSummary[u"analysis_url"]
 	
-	meta = analysis["meta"];
-	
-	cleanSummary["artist"] = meta["artist"]
-	cleanSummary["album"] = meta["album"]
-	cleanSummary["title"] = meta["title"]
-	cleanSummary["genre"] = meta["genre"]
-	cleanSummary["bitrate"] = meta["bitrate"]
-	cleanSummary["sample_rate"] = meta["sample_rate"]
-	
-	cleanSummary["filename"] = path.split("/")[-1]
+	cleanSummary[u"artist"] = meta[u"artist"]
+	cleanSummary[u"title"] = meta[u"title"]
+	cleanSummary[u"album"] = meta[u"album"]
+	cleanSummary[u"year"] = meta[u"year"]
+	cleanSummary[u"genre"] = analysis[u"meta"][u"genre"]
+	cleanSummary[u"bitrate"] = analysis[u"meta"][u"bitrate"]
+	cleanSummary[u"sample_rate"] = analysis[u"meta"][u"sample_rate"]
+	cleanSummary[u"filename"] = path.split(u"/")[-1]
 	
 	return cleanSummary
 
 
 def getCleanAnalysis(analysis):
 	cleanAnalysis = dict(analysis)
-	del cleanAnalysis["meta"]
-	del cleanAnalysis["track"]
-	del cleanAnalysis["tatums"]
+	del cleanAnalysis[u"meta"]
+	del cleanAnalysis[u"track"]
+	del cleanAnalysis[u"tatums"]
 	
 	cleanAnalysis = formatter.formatAnalysis(cleanAnalysis)
 	

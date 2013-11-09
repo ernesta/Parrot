@@ -8,25 +8,16 @@ import os
 
 
 ## Constants ##
-SEPARATOR = u"-" * 60
-TAB = "\t"
-UTF8 = "utf-8"
-JSON = u".json"
-TSV = u".tsv"
-TXT = u".txt"
-READ = "rb"
-WRITE = "wb"
-INDEX = u"index"
-VALUE = u"value"
-FLOAT = u"{:.03f}"
+UTF8 = u"utf-8"
+READ = u"rb"
+WRITE = u"wb"
 
 
 
 ## Console ##
 def printToConsole(list):
-	print(SEPARATOR)
+	print(u"-" * 60)
 	print(u"\n".join(list))
-	print(SEPARATOR)
 
 
 
@@ -52,12 +43,19 @@ def combineLists(lists):
 
 
 ## Reading ##
-def loadListFromFile(path):
+def readListFromFile(path):
 	with open(path, READ) as file:
 		rows = file.readlines()
 		rows = map(lambda s: s.strip(), rows)
 		
 		return rows
+
+
+def readJSON(path):
+	with open(path, READ) as file:
+		data = json.load(file)
+		
+		return data
 
 
 
@@ -68,10 +66,9 @@ def createDirectory(path):
 
 
 def writeData(data, filename):
-	with open(filename + TSV, WRITE) as file:
+	with open(filename, WRITE) as file:
 		# Gets TSV writer
-		writer = csv.writer(file, delimiter = TAB)
-		
+		writer = csv.writer(file, delimiter = "\t")
 		# Writes the file's header
 		writer.writerow(data[0])
 		
@@ -83,7 +80,7 @@ def writeData(data, filename):
 				entry = data[i][j]
 				
 				if isinstance(entry, float):
-					row.append(FLOAT.format(entry))
+					row.append(u"{:.03f}".format(entry))
 				else:
 					row.append(entry)
 			
@@ -91,7 +88,7 @@ def writeData(data, filename):
 
 
 def writeText(text, filename):
-	with open(filename + TXT, WRITE) as file:
+	with open(filename, WRITE) as file:
 		# Sets encoding header
 		file.write(codecs.BOM_UTF8)
 		# Gets CSV writer
@@ -103,8 +100,9 @@ def writeText(text, filename):
 
 
 def writeJSON(data, filename):
-	with open(filename + JSON, WRITE) as file:
+	with open(filename, WRITE) as file:
 		json.dump(data, file)
+
 
 
 class UnicodeWriter:
@@ -114,6 +112,7 @@ class UnicodeWriter:
 		self.writer = csv.writer(self.queue, dialect = dialect, **kwds)
 		self.stream = f
 		self.encoder = codecs.getincrementalencoder(encoding)()
+	
 	
 	def writerow(self, row):
 		self.writer.writerow([s.encode(UTF8) for s in row])
@@ -128,6 +127,7 @@ class UnicodeWriter:
 		self.stream.write(data)
 		# Empties the queue
 		self.queue.truncate(0)
+	
 	
 	def writerows(self, rows):
 		for row in rows:

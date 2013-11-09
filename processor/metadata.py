@@ -33,8 +33,10 @@ def getSize(audio):
 	return audio.info.size_bytes
 
 
-def getBitRate(audio):
-	return audio.info.bit_rate
+def getBitrate(audio):
+	varied, bitrate = audio.info.bit_rate
+	
+	return bitrate
 
 
 
@@ -47,7 +49,7 @@ def getPrettySize(audio):
 	return eyed3.utils.formatSize(getSize(audio))
 
 
-def getPrettyBitRate(audio):
+def getPrettyBitrate(audio):
 	return audio.info.bit_rate_str
 
 
@@ -59,8 +61,8 @@ def getSummary(audio):
 	
 	time = getPrettyLength(audio)
 	size = getPrettySize(audio)
-	bitRate = getPrettyBitRate(audio)
+	bitrate = getPrettyBitrate(audio)
 	
-	info = u"Time: {} | Size: {} | Bit rate: {}".format(time, size, bitRate)
+	info = u"Time: {} | Size: {} | Bit rate: {}".format(time, size, bitrate)
 	
 	return [title, subtitle, info]

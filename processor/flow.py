@@ -1,149 +1,73 @@
+import extractor
 import metadata
-import mir
-import nest
-import utils
 import os
+import utils
 
 
 
 ## Constants ##
 SCRIPTS, SCRIPT = os.path.split(os.path.abspath(__file__))
 DATA = u"{}/../data".format(SCRIPTS)
-SAMPLES = u"{}/samples".format(DATA)
 INPUT = u"{}/input".format(DATA)
 OUTPUT = u"{}/output".format(DATA)
-INFO = u"info"
-
-FILENAME = u"{}/{}"
-
-FEATURES = u"features"
-MFCC = u"MFCC"
-ZC = u"ZC"
-TIMES = u"times"
-NOTES = u"notes"
-CHORDS = u"chords"
-RMS = u"RMS"
-
-	
-	
-## MIR ##
-def prepareInputs(audio):
-	onsets = mir.getFluxOnsets(audio)
-	frames = mir.getOnsetFrames(audio, onsets)
-	times = mir.getTimes(frames)
-	spectra = mir.getSpectra(frames)
-	
-	return onsets, frames, times, spectra
-	
-
-def extractAllFeatures(directory, audio):
-	# Preparation
-	onsets, frames, times, spectra = prepareInputs(audio)
-	
-	# Timbre
-	mfcc = mir.getCleanMFCC(spectra)
-	zc = mir.getCleanZeroCrossings(frames)
-	
-	# Rhythm
-	times = mir.getCleanTimes(times)
-	
-	# Harmony
-	notes = mir.getCleanNotes(spectra)
-	chords = mir.getCleanChords(spectra)
-	
-	# Intensity
-	rms = mir.getCleanRMS(frames)
-	
-	features = utils.combineLists([times, mfcc, zc, notes, chords, rms])
-	filename = FILENAME.format(directory, FEATURES)
-	utils.writeData(features, filename)
+TRACKS = u"{}/tracks".format(DATA)
 
 
-def extractIndividualFeatures(directory, audio):
-	# Preparation
-	onsets, frames, times, spectra = prepareInputs(audio)
-	
-	# Timbre
-	extractFeature(MFCC, times, spectra, directory)
-	extractFeature(ZC, times, frames, directory)
-	
-	# Rhythm
-	extractFeature(TIMES, times, times, directory)
-	
-	# Harmony
-	extractFeature(NOTES, times, spectra, directory)
-	extractFeature(CHORDS, times, spectra, directory)
-	
-	# Intensity
-	extractFeature(RMS, times, frames, directory)
+
+def loadMetadata(path):
+	try:
+		return metadata.load(path)
+	except IOError:
+		print(u"Cannot load {}.".format(path))
+		return None
 
 
-def extractFeature(feature, indices, values, directory):
-	filename = FILENAME.format(directory, feature)
-	
-	{
-		MFCC: lambda i, v, f: utils.writeData(utils.combineLists([mir.getCleanTimes(i), mir.getCleanMFCC(v)]), f),
-		ZC: lambda i, v, f: utils.writeData(utils.combineLists([mir.getCleanTimes(i), mir.getCleanZeroCrossings(v)]), f),
-		TIMES: lambda i, v, f: utils.writeData(mir.getCleanTimes(i), f),
-		NOTES: lambda i, v, f: utils.writeData(utils.combineLists([mir.getCleanTimes(i), mir.getCleanNotes(v)]), f),
-		CHORDS: lambda i, v, f: utils.writeData(utils.combineLists([mir.getCleanTimes(i), mir.getCleanChords(v)]), f),
-		RMS: lambda i, v, f: utils.writeData(utils.combineLists([mir.getCleanTimes(i), mir.getCleanRMS(v)]), f),
-	}[feature](indices, values, filename)
+def displaySummary(meta):
+	summary = metadata.getSummary(meta)
+	utils.printToConsole(summary)
 
 
-def extractEchoFeatures(directory, path):
-	echo = nest.initialize()
-	echoSummary = nest.retrieveSummary(echo, path)
-	echoAnalysis = nest.retrieveAnalysis(echoSummary["analysis_url"])
+def createDirectory(meta):
+	hash = utils.getHash(metadata.getArtist(meta) + metadata.getTitle(meta))
+	directory = u"{}/{}".format(OUTPUT, hash)
+	utils.createDirectory(directory)
 	
-	formattedSummary = nest.getCleanSummary(echoSummary, echoAnalysis, path)
-	formattedAnalysis = nest.getCleanAnalysis(echoAnalysis)
+	return directory
+
+
+def getBasicMetadata(meta):
+	hash = utils.getHash(metadata.getArtist(meta) + metadata.getTitle(meta))
 	
-	# Writes feature data
-	for key, value in formattedAnalysis.items():
-		filename = FILENAME.format(directory, key)
-		utils.writeData(value, filename)
-	
-	# Writes summary data
-	filename = FILENAME.format(directory, INFO)
-	utils.writeJSON(formattedSummary, filename)
+	return {
+		u"title": metadata.getTitle(meta),
+		u"artist": metadata.getArtist(meta),
+		u"directory": u"{}/".format(hash)
+	}
 
 
 
 ## Flow ##
-samples = []
+tracks = []
 
-for filename in utils.loadListFromFile("{}.txt".format(SAMPLES)):
-	# Loads the file for MIR and metadata extraction
-	path = FILENAME.format(INPUT, filename)
+for filename in utils.readListFromFile(u"{}.txt".format(TRACKS)):
+	# Loads the track for MIR and metadata extraction
+	path = u"{}/{}".format(INPUT, filename.decode("utf-8"))
 	
-	try:
-		meta = metadata.load(path)
-		audio = mir.load(path)
-	except IOError:
-		print(u"Cannot load {}.".format(path))
-	
+	# Loads the track's metadata
+	meta = loadMetadata(path)
 	# Displays the file's metadata in the console window
-	summary = metadata.getSummary(meta)
-	utils.printToConsole(summary)
+	displaySummary(meta)
 	
-	# Creates a directory for storing audio data
-	ID = utils.getHash(metadata.getArtist(meta) + metadata.getTitle(meta))
-	directory = FILENAME.format(OUTPUT, ID)
-	utils.createDirectory(directory)
+	# Creates a directory for storing feature data
+	directory = createDirectory(meta)
+	print(directory.split("/")[-1])
 	
-	# Extracts metadata for saving in samples.json
-	samples.append({
-		"title": metadata.getTitle(meta),
-		"artist": metadata.getArtist(meta),
-		"directory": u"{}/".format(ID)
-	})
+	# Extracts metadata for saving in tracks.json
+	track = getBasicMetadata(meta)
+	tracks.append(track)
 	
-	# Extracts feature information
-	extractIndividualFeatures(directory, audio)
-	extractAllFeatures(directory, audio)
-	
-	# Extracts Echo Nest feature information
-	extractEchoFeatures(directory, path)
+	# Extracts local and Echo Nest feature information
+	extractor.extractLocalFeatures(directory, path)
+	extractor.extractEchoFeatures(directory, path, meta)
 
-utils.writeJSON(samples, SAMPLES)
+utils.writeJSON(tracks, u"{}.json".format(TRACKS))
