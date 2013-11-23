@@ -141,17 +141,23 @@ button:focus {
 
 
 /* Features */
-.graph > p {
-	color: #555;
-	font-size: 12px;
+.graph {
+	margin-bottom: 30px;
 }
 
 .graph > div {
 	height: 200px;
-	margin-bottom: 30px;
 	background-color: #F8F8FF;
 	border-radius: 2px;
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.graph > p {
+	margin-top: 10px;
+	padding: 0 10px;
+	color: #888;
+	font-size: 11px;
+	text-shadow: 0px 1px 0px #fff;
 }
