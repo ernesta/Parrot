@@ -1,4 +1,5 @@
 import extractor
+import last
 import metadata
 import os
 import utils
@@ -36,8 +37,8 @@ def createDirectory(meta):
 
 
 def getBasicMetadata(meta):
-	artist = metadata.getTitle(meta)
-	title = metadata.getArtist(meta)
+	artist = metadata.getArtist(meta)
+	title = metadata.getTitle(meta)
 	hash = utils.getHash(artist + title)
 	
 	thumb = last.getThumb(artist, metadata.getAlbum(meta))
