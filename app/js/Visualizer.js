@@ -20,7 +20,9 @@ var Visualizer = (function($) {
 	
 	var graphCount = 0;
 	var loadCount = 0;
+	var inProgress = false;
 	
+	var position = 0;
 	var track = {};
 	
 	
@@ -33,11 +35,19 @@ var Visualizer = (function($) {
 		track = t;
 		$.getJSON(Constants.VISUALIZATIONS.EXPLORE, loadExplore);
 	}
-			
-	function cleanCanvas() {
-		$("svg").remove();
+	
+	function displayCompare(t, p) {
+		track = t;
+		position = p;
+		$.getJSON(Constants.VISUALIZATIONS.COMPARE, loadCompare);
 	}
 	
+	function displayDiscover(t, p) {
+		track = t;
+		position = p;
+		$.getJSON(Constants.VISUALIZATIONS.DISCOVER, loadDiscover);
+	}
+			
 	
 	//// Visualizing ////
 	function loadExplore(data) {
@@ -49,6 +59,25 @@ var Visualizer = (function($) {
 		
 		visualize(fingerprints, TYPE.FINGERPRINT);
 		visualize(features, TYPE.FEATURE);
+	}
+	
+	function loadCompare(data) {
+		var fingerprints = flattenByColumns(data.fingerprints)[position];
+		var features = flattenByColumns(data.features)[position];
+		
+		graphCount += fingerprints.length;
+		graphCount += features.length;
+		
+		visualize(fingerprints, TYPE.FINGERPRINT);
+		visualize(features, TYPE.FEATURE);
+	}
+	
+	function loadDiscover(data) {
+		var fingerprints = [flattenByRows(data.fingerprints)[position]];
+		
+		graphCount += fingerprints.length;
+		
+		visualize(fingerprints, TYPE.FINGERPRINT);
 	}
 	
 	function visualize(items, type) {
@@ -99,6 +128,17 @@ var Visualizer = (function($) {
 		
 		return flattened;
 	}
+	
+	function flattenByColumns(rows) {
+		var flattened = [[], []];
+		for (var i = 0; i < rows.length; i++) {
+			for (var j = 0; j < 2; j++) {
+				flattened[j].push(rows[i][j]);
+			}
+		}
+		
+		return flattened;
+	}
 		
 	function parseFeature(data, x, y, z) {
 		var input = [];
@@ -121,7 +161,7 @@ var Visualizer = (function($) {
 			input[i] = {};
 			
 			var width = computePeriod(i, data);
-			var value = Utils.computeDeviation(JSON.parse(data[i][y]));
+			var value = Utils.computeMean(JSON.parse(data[i][y]));
 			var level = JSON.parse(data[i][z]);
 			
 			input[i].x = JSON.parse(data[i][x]);
@@ -185,6 +225,7 @@ var Visualizer = (function($) {
 	return {
 		init: init,
 		displayExplore: displayExplore,
-		cleanCanvas: cleanCanvas
+		displayCompare: displayCompare,
+		displayDiscover: displayDiscover
 	};
 })(jQuery);

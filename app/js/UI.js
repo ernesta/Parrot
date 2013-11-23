@@ -10,19 +10,29 @@ var UI = (function($) {
 		setConfig(c);
 	}
 	
-	function displayTrackList(tracks) {
+	function displayTrackList(tracks, position) {
 		var dropdown = $(".dropdown-menu");
-		dropdown.on("click", "li", onTrackClick);
+		dropdown.on("click", "li", onDropdownClick);
 		
-		$.each(tracks, function(key, value) {
-			var track ="<li data-key=" + key + "><a href=''>" + value.title + " (" + value.artist + ")</a></li>";
-			dropdown.append(track);
-		});
+		for (var i = 0; i < tracks.length; i++) {
+			var track ="<li data-pos=" + position + " data-track=" + i + "><a href=''>" + tracks[i].title + " (" + tracks[i].artist + ")</a></li>";
+			$(dropdown[position]).append(track);
+		}
 	}
 	
-	function displayTrackInfo(track) {
-		displayBasicInformation(track);
-		displayAnalysisSummary(track);
+	function displayPresetList(presets) {
+		var dropdown = $(".dropdown-menu");
+		dropdown.on("click", "li", onDropdownClick);
+		
+		for (var i = 0; i < presets.length; i++) {
+			var preset = "<li data-track=" + i + "><a href=''>" + presets[i].title + "</a></li>";
+			$(dropdown[0]).append(preset);
+		}
+	}
+		
+	function displayTrackInfo(track, position) {
+		displayBasicInformation(track, position);
+		displayAnalysisSummary(track, position);
 	}
 	
 	function toggleProgress(on) {
@@ -32,9 +42,9 @@ var UI = (function($) {
 	
 	
 	//// Private ////
-	function displayBasicInformation(track) {
-		$(".meta img").attr("src", Constants.TRACKS.OUTPUT + track.directory + "thumb.jpg");
-		$(".meta img").attr("alt", track.artist);
+	function displayBasicInformation(track, position) {
+		$($(".cover")[position]).attr("src", track.thumb);
+		$($(".cover")[position]).attr("alt", track.artist);
 		
 		var entries = [];
 		
@@ -50,13 +60,13 @@ var UI = (function($) {
 			"<em>Bit rate</em>: " + track.bitrate + " kb/s" +
 			"</p>";
 		
-		var container = $(".info").empty();
+		var container = $($(".info")[position]).empty();
 		for (var i = 0; i < entries.length; i++) {
 			container.append(entries[i]);
 		}
 	}
 	
-	function displayAnalysisSummary(track) {
+	function displayAnalysisSummary(track, position) {
 		var entries = [];
 		entries[0] = "<p>" +
 			"<span title='Speechiness' class='glyphicon glyphicon-comment'></span>" + ~~(track.speechiness * 100) + "%" +
@@ -74,7 +84,7 @@ var UI = (function($) {
 			"</p>";
 		entries[2] = "<p>" + "<em>Genre</em>: " + track.genre + "</p>";
 		
-		var container = $(".summary").empty();
+		var container = $($(".summary")[position]).empty();
 		for (var i = 0; i < entries.length; i++) {
 			container.append(entries[i]);
 		}
@@ -84,13 +94,13 @@ var UI = (function($) {
 	
 	
 	//// Events ////
-	function onTrackClick(event) {
+	function onDropdownClick(event) {
 		event.preventDefault();
 		
 		var item = $(event.currentTarget);
-		var key = item.data().key;
+		var data = item.data();
 		
-		config.onTrackClick(key);
+		config.onDropdownClick(data);
 	}
 	
 	
@@ -138,6 +148,7 @@ var UI = (function($) {
 	return {
 		init: init,
 		displayTrackList: displayTrackList,
+		displayPresetList: displayPresetList,
 		displayTrackInfo: displayTrackInfo,
 		toggleProgress: toggleProgress
 	};
