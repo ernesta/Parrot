@@ -1,0 +1,11 @@
+{
+	"fingerprints": [
+		[
+			{"container": "#finger1", "type": "fingerprint", "caption": "Fingerprint (Echo Nest)", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "chroma", "colors": ["rgb(216, 15, 15)", "rgb(134, 134, 0)", "rgb(0, 151, 0)", "rgb(0, 143, 143)", "rgb(81, 81, 253)", "rgb(183, 0, 183)"]},
+			{"container": "#finger2", "type": "fingerprint", "caption": "Fingerprint (Echo Nest)", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "chroma", "colors": ["rgb(216, 15, 15)", "rgb(134, 134, 0)", "rgb(0, 151, 0)", "rgb(0, 143, 143)", "rgb(81, 81, 253)", "rgb(183, 0, 183)"]}
+		], [
+			{"container": "#finger3", "type": "fingerprint", "caption": "Fingerprint (Echo Nest)", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "chroma", "colors": ["rgb(216, 15, 15)", "rgb(134, 134, 0)", "rgb(0, 151, 0)", "rgb(0, 143, 143)", "rgb(81, 81, 253)", "rgb(183, 0, 183)"]},
+			{"container": "#finger4", "type": "fingerprint", "caption": "Fingerprint (Echo Nest)", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "chroma", "colors": ["rgb(216, 15, 15)", "rgb(134, 134, 0)", "rgb(0, 151, 0)", "rgb(0, 143, 143)", "rgb(81, 81, 253)", "rgb(183, 0, 183)"]}
+		]
+	], "features": []
+}

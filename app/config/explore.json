@@ -14,17 +14,14 @@
 			{"container": "#chords3", "type": "position", "caption": "Chords by note position", "file": "features.tsv", "x": "time", "y": "chordNotes", "z": null, "colors": ["#FFFFFF", "#CC2A41"]},
 			{"container": "#chords4", "type": "position", "caption": "Chords (Echo Nest) by note position", "file": "segments.tsv", "x": "time", "y": "chroma", "z": null, "colors": ["#FFFFFF", "#CC2A41"]}
 		], [
-			{"container": "#chords5", "type": "color", "caption": "Chords by mode color", "file": "features.tsv", "x": "time", "y": null, "z": "chordMode", "colors": ["#2E2633", "#99173C"]},
-			{"container": "#timbre1", "type": "color", "caption": "Timbre (zero-crossings) by color", "file": "features.tsv", "x": "time", "y": null, "z": "ZC", "colors": ["#00C7FF", "#07093D"]}
-		], [
 			{"container": "#timbre2", "type": "position", "caption": "Timbre (MFCC) by color", "file": "features.tsv", "x": "time", "y": "MFCC", "z": "MFCC", "colors": ["#00DFFC", "#000524"]},
 			{"container": "#timbre3", "type": "position", "caption": "Timbre (Echo Nest) by color", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "timbre", "colors": ["#00DFFC", "#000524"]}
 		], [
-			{"container": "#intensity1", "type": "height", "caption": "Loudness by height", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
-			{"container": "#intensity2", "type": "height", "caption": "Loudness (Echo Nest) by height", "file": "segments.tsv", "x": "time", "y": "dB", "z": null, "colors": ["#FF9900", "#FF9900"]}
+			{"container": "#loudness1", "type": "height", "caption": "Loudness by height", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
+			{"container": "#loudness2", "type": "height", "caption": "Loudness (Echo Nest) by height", "file": "segments.tsv", "x": "time", "y": "dB", "z": null, "colors": ["#FF9900", "#FF9900"]}
 		], [
-			{"container": "#intensity3", "type": "color", "caption": "Loudness by color", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]},
-			{"container": "#intensity4", "type": "color", "caption": "Loudness (Echo Nest) by color", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]}
+			{"container": "#loudness3", "type": "color", "caption": "Loudness by color", "file": "features.tsv", "x": "time", "y": null, "z": "RMS", "colors": ["#F9D423", "#E15E32"]},
+			{"container": "#loudness4", "type": "color", "caption": "Loudness (Echo Nest) by color", "file": "segments.tsv", "x": "time", "y": null, "z": "dB", "colors": ["#F9D423", "#E15E32"]}
 		], [
 			{"container": "#beats1", "type": "height", "caption": "Bars (Echo Nest)", "file": "beats.tsv", "x": "time", "y": "type", "z": null, "colors": ["#7A6A53", "#7A6A53"]},
 			{"container": "#beats2", "type": "color", "caption": "Beats and bars (Echo Nest) by color", "file": "beats.tsv", "x": "time", "y": null, "z": "type", "colors": ["#D9CEB2", "#7A6A53"]}

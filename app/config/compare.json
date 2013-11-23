@@ -1,0 +1,19 @@
+{
+	"fingerprints": [
+		[
+			{"container": "#finger1", "type": "fingerprint", "caption": "Fingerprint (Echo Nest)", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "chroma", "colors": ["rgb(216, 15, 15)", "rgb(134, 134, 0)", "rgb(0, 151, 0)", "rgb(0, 143, 143)", "rgb(81, 81, 253)", "rgb(183, 0, 183)"]},
+			{"container": "#finger2", "type": "fingerprint", "caption": "Fingerprint (Echo Nest)", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "chroma", "colors": ["rgb(216, 15, 15)", "rgb(134, 134, 0)", "rgb(0, 151, 0)", "rgb(0, 143, 143)", "rgb(81, 81, 253)", "rgb(183, 0, 183)"]}
+		]
+	], "features": [
+		[
+			{"container": "#chords1", "type": "height", "caption": "Chords by height", "file": "features.tsv", "x": "time", "y": "chordKey", "z": null, "colors": ["#E84A5F", "#E84A5F"]},
+			{"container": "#chords2", "type": "height", "caption": "Chords by height", "file": "features.tsv", "x": "time", "y": "chordKey", "z": null, "colors": ["#E84A5F", "#E84A5F"]}
+		], [
+			{"container": "#timbre1", "type": "position", "caption": "Timbre (Echo Nest) by color", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "timbre", "colors": ["#00DFFC", "#000524"]},
+			{"container": "#timbre2", "type": "position", "caption": "Timbre (Echo Nest) by color", "file": "segments.tsv", "x": "time", "y": "timbre", "z": "timbre", "colors": ["#00DFFC", "#000524"]}
+		], [
+			{"container": "#loudness1", "type": "height", "caption": "Loudness by height", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]},
+			{"container": "#loudness2", "type": "height", "caption": "Loudness by height", "file": "features.tsv", "x": "time", "y": "RMS", "z": null, "colors": ["#FF9900", "#FF9900"]}
+		]
+	]
+}
