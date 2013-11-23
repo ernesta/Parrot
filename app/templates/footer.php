@@ -3,11 +3,14 @@
 
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="//jplayer.org/js/jquery.jplayer.min.js"></script>
-
+	
 	<script src="js/Constants.js"></script>
 	<script src="js/Utils.js"></script>
-	<script src="js/Controller.js"></script>
 	<script src="js/Parrot.js"></script>
 	<script src="js/Visualizer.js"></script>
 	<script src="js/Player.js"></script>
 	<script src="js/UI.js"></script>
+	<script src="js/Explore.js"></script>
+	<script src="js/Compare.js"></script>
+	<script src="js/Discover.js"></script>
+	<script src="js/Controller.js"></script>

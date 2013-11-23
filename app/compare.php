@@ -2,21 +2,21 @@
 <?php require_once "functions.php"; ?>
 <html lang="en">
 	<?php require "templates/head.php"; ?>
-	<body class="explore">
+	<body class="compare">
 		<!-- Navbar -->
-		<?php generateNavigationBar(EXPLORE); ?>
+		<?php generateNavigationBar(COMPARE); ?>
 		<!-- /Navbar -->
 	
 		<!-- Meta -->
 		<div class="container">
-			<?php generateMeta(EXPLORE); ?>
+			<?php generateMeta(COMPARE); ?>
 		</div>
 		<!-- /Meta -->
 	
 		<!-- Graphs -->
 		<div id="graphs" class="container">
-			<?php generateFingerprints(EXPLORE); ?>
-			<?php generateFeatures(EXPLORE); ?>
+			<?php generateFingerprints(COMPARE); ?>
+			<?php generateFeatures(COMPARE); ?>
 		</div>
 		<!-- /Graphs -->
 	

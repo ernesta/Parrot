@@ -1,0 +1,1 @@
+			<div class="summary col-md-6"></div>
