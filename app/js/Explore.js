@@ -3,6 +3,9 @@ var Explore = (function($) {
 	var tracks = [];
 	var current = 0;
 	
+	var extensions = 0;
+	var displays = 0;
+	
 	
 	//// Functions ////
 	// Initialization //
@@ -16,6 +19,14 @@ var Explore = (function($) {
 		initVisualizer();
 		
 		displayContent();
+		attachListeners();
+	}
+	
+	function attachListeners() {
+		$(".controls").click(function(event) {
+			var position = $(event.currentTarget).data().pos;
+			Player.setOrigin(position);
+		});
 	}
 	
 	function initPlayer() {
@@ -50,6 +61,8 @@ var Explore = (function($) {
 	// Data //
 	function loadTrackList(data) {
 		tracks = data;
+		extensions = tracks.length;
+		
 		extendTrackList();
 	}
 	
@@ -61,7 +74,7 @@ var Explore = (function($) {
 				$.getJSON(path, function(track) {
 					$.extend(tracks[i], track);
 					
-					if (i + 1 === tracks.length) {
+					if (--extensions === 0) {
 						initApp();
 					}
 				});
@@ -71,24 +84,22 @@ var Explore = (function($) {
 	
 	
 	// Display //
-	function displayContent() {
+	function displayContent(track) {
 		UI.displayTrackList(tracks, 0);
-		displayTrack();
+		
+		var track = tracks[current];
+		displayTrack(track);
 	}
 	
-	function displayTrack() {
-		var track = tracks[current];
-		
+	function displayTrack(track) {
 		UI.displayTrackInfo(track, 0);
 		Visualizer.displayExplore(track);
 	}
 	
 	
 	// Player //
-	function loadPlayerMedia() {
-		var track = tracks[current];
+	function loadPlayerMedia(track) {
 		var path = Constants.TRACKS.INPUT + track.filename;
-		
 		Player.loadTrack(path, 0);
 	}
 	
@@ -96,7 +107,7 @@ var Explore = (function($) {
 	//// Events ////
 	// Player //
 	function onPlayerReady() {
-		loadPlayerMedia();
+		loadPlayerMedia(tracks[current]);
 	}
 	
 	function onTrackPlay() {}
@@ -111,8 +122,10 @@ var Explore = (function($) {
 		onDrawingStarted();
 		
 		current = data.track;
-		loadPlayerMedia();
-		displayTrack();
+		var track = tracks[current];
+		
+		loadPlayerMedia(track);
+		displayTrack(track);
 	}
 	
 	

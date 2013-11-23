@@ -4,6 +4,7 @@ var Compare = (function($) {
 	var current = [0, 1];
 	
 	var players = 0;
+	var extensions = 0;
 	var displays = 0;
 	
 	
@@ -61,6 +62,8 @@ var Compare = (function($) {
 	// Data //
 	function loadTrackList(data) {
 		tracks = data;
+		extensions = tracks.length;
+		
 		extendTrackList();
 	}
 	
@@ -72,7 +75,7 @@ var Compare = (function($) {
 				$.getJSON(path, function(track) {
 					$.extend(tracks[i], track);
 					
-					if (i + 1 === tracks.length) {
+					if (--extensions === 0) {
 						initApp();
 					}
 				});

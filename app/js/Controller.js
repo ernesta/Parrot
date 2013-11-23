@@ -1,11 +1,6 @@
 (function($) {
-	//// Attributes ////
-	var tracks = [];
-	var current = [];
-	
-	
-	//// Flow ////
 	var page = $("body").attr("class");
+	
 	switch (page) {
 		case Constants.PAGES.EXPLORE:
 			Explore.init();
