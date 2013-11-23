@@ -146,7 +146,6 @@ var Discover = (function($) {
 		tracks = presets[current].tracks;
 		
 		var track = tracks[displays];
-		
 		displayTrack(track, displays);
 		loadPlayerMedia(track, displays);
 	}
@@ -162,6 +161,7 @@ var Discover = (function($) {
 		if (displays < tracks.length) {
 			var track = tracks[displays];
 			displayTrack(track, displays);
+			loadPlayerMedia(track, displays);
 		} else {
 			UI.toggleProgress(false);
 			displays = 0;
