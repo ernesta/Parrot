@@ -36,12 +36,17 @@ def createDirectory(meta):
 
 
 def getBasicMetadata(meta):
-	hash = utils.getHash(metadata.getArtist(meta) + metadata.getTitle(meta))
+	artist = metadata.getTitle(meta)
+	title = metadata.getArtist(meta)
+	hash = utils.getHash(artist + title)
+	
+	thumb = last.getThumb(artist, metadata.getAlbum(meta))
 	
 	return {
-		u"title": metadata.getTitle(meta),
-		u"artist": metadata.getArtist(meta),
-		u"directory": u"{}/".format(hash)
+		u"artist": artist,
+		u"title": title,
+		u"directory": u"{}/".format(hash),
+		u"thumb": thumb
 	}
 
 
@@ -65,6 +70,7 @@ for filename in utils.readListFromFile(u"{}.txt".format(TRACKS)):
 	# Extracts metadata for saving in tracks.json
 	track = getBasicMetadata(meta)
 	tracks.append(track)
+	
 	
 	# Extracts local and Echo Nest feature information
 	extractor.extractLocalFeatures(directory, path)
