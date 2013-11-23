@@ -161,7 +161,7 @@ var Visualizer = (function($) {
 			input[i] = {};
 			
 			var width = computePeriod(i, data);
-			var value = Utils.computeMean(JSON.parse(data[i][y]));
+			var value = Utils.computeDeviation(JSON.parse(data[i][y]));
 			var level = JSON.parse(data[i][z]);
 			
 			input[i].x = JSON.parse(data[i][x]);
