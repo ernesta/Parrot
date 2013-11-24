@@ -84,10 +84,15 @@ button:focus {
 	margin-bottom: 10px;
 }
 
+.meta.player > div {
+	margin-bottom: 0;
+}
+
 .meta img, .controls {
 	width: 51px;
 	height: 51px;
 	margin-right: 15px;
+	margin-bottom: 15px;
 	border-radius: 2px;
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);

@@ -78,11 +78,11 @@ function generateMeta($mode, $position = 0) {
 			$row = generateRow([generatePlayer(0), $summary], $class);
 			break;
 		case COMPARE:
-			$row = generateRow([generatePlayer(0), generatePlayer(1)], $class);
+			$row = generateRow([generatePlayer(0), generatePlayer(1)], $class . " player");
 			$row .= generateRow([$summary, $summary], $class);
 			break;
 		default:
-			$row = generateRow([generatePlayer($position * 2), generatePlayer($position * 2 + 1)], $class);
+			$row = generateRow([generatePlayer($position * 2), generatePlayer($position * 2 + 1)], $class . " player");
 			$row .= generateRow([$summary, $summary], $class);
 			
 	}
