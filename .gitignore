@@ -5,9 +5,6 @@ app/js/libs
 # Secrets
 secrets.py
 
-# .htaccess
-.htaccess
-
 # Tracks
 data
 
