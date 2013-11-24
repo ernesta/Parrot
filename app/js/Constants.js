@@ -6,8 +6,8 @@ var Constants = {
 		EXPLORE: "config/exploreTracks.json",
 		COMPARE: "config/compareTracks.json",
 		DISCOVER: "config/discoverTracks.json",
-		INPUT: "../data/input/",
-		OUTPUT: "../data/output/",
+		INPUT: "data/input/",
+		OUTPUT: "data/output/",
 	},
 	PAGES: {
 		EXPLORE: "explore",
