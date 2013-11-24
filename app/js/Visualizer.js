@@ -54,7 +54,7 @@ var Visualizer = (function($) {
 		var fingerprints = flattenByRows(data.fingerprints);
 		var features = flattenByRows(data.features);
 		
-		graphCount += fingerprints.length;
+		graphCount = fingerprints.length;
 		graphCount += features.length;
 		
 		visualize(fingerprints, TYPE.FINGERPRINT);
@@ -65,7 +65,7 @@ var Visualizer = (function($) {
 		var fingerprints = flattenByColumns(data.fingerprints)[position];
 		var features = flattenByColumns(data.features)[position];
 		
-		graphCount += fingerprints.length;
+		graphCount = fingerprints.length;
 		graphCount += features.length;
 		
 		visualize(fingerprints, TYPE.FINGERPRINT);
@@ -75,7 +75,7 @@ var Visualizer = (function($) {
 	function loadDiscover(data) {
 		var fingerprints = [flattenByRows(data.fingerprints)[position]];
 		
-		graphCount += fingerprints.length;
+		graphCount = fingerprints.length;
 		
 		visualize(fingerprints, TYPE.FINGERPRINT);
 	}
