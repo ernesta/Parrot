@@ -74,16 +74,16 @@ function generateMeta($mode, $position = 0) {
 	$class = "meta";
 	
 	switch ($mode) {
-		case EXPLORE:
-			$row = generateRow([generatePlayer(0), $summary], $class);
+		case EXPLORE:;
+			$row = generateRow(array(generatePlayer(0), $summary), $class);
 			break;
 		case COMPARE:
-			$row = generateRow([generatePlayer(0), generatePlayer(1)], $class . " player");
-			$row .= generateRow([$summary, $summary], $class);
+			$row = generateRow(array(generatePlayer(0), generatePlayer(1)), $class . " player");
+			$row .= generateRow(array($summary, $summary), $class);
 			break;
 		default:
-			$row = generateRow([generatePlayer($position * 2), generatePlayer($position * 2 + 1)], $class . " player");
-			$row .= generateRow([$summary, $summary], $class);
+			$row = generateRow(array(generatePlayer($position * 2), generatePlayer($position * 2 + 1)), $class . " player");
+			$row .= generateRow(array($summary, $summary), $class);
 			
 	}
 	
@@ -147,8 +147,8 @@ function generateNavigationBar($page) {
 }
 
 function generateActive($page) {
-	$modes = [EXPLORE, COMPARE, DISCOVER];
-	$active = [];
+	$modes = array(EXPLORE, COMPARE, DISCOVER);
+	$active = array();
 	
 	foreach ($modes as $index => $mode) {
 		$active[$index] = ($page === $mode) ? " class='active'" : "";
