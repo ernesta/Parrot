@@ -3,7 +3,7 @@
 Visualizing music. More to come.
 
 ## Libraries
-+ The processing component relies on [PyMIR](https://github.com/jsawruk/pymir), [NumPy](http://www.numpy.org/), [eyeD3](http://eyed3.nicfit.net/) and [pyLast](https://code.google.com/p/pylast/). On top of that, PyMIR will get you to install a bunch of other libraries.
++ The processing component relies on [PyMIR](https://github.com/jsawruk/pymir), [eyeD3](http://eyed3.nicfit.net/), [pyen](https://github.com/plamere/pyen) and [pyLast](https://code.google.com/p/pylast/). On top of that, PyMIR and pyen will get you to install a bunch of other libraries.
 + The visualization component depends on [jQuery](http://jquery.com/) and [D3.js](http://d3js.org/). By the way, D3.js is (redacted) amazing.
 + The application is built with [Bootstrap](http://getbootstrap.com/). Elegance guaranteed. HTML5 audio works with some [jPlayer](http://jplayer.org/) magic.
 
