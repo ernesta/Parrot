@@ -12,7 +12,7 @@ var UI = (function($) {
 	
 	function displayTrackList(tracks, position) {
 		var dropdown = $(".dropdown-menu");
-		dropdown.on("click", "li", onDropdownClick);
+		$(dropdown[position]).on("click", "li", onDropdownClick);
 		
 		for (var i = 0; i < tracks.length; i++) {
 			var track ="<li data-pos=" + position + " data-track=" + i + "><a href=''>" + tracks[i].title + " (" + tracks[i].artist + ")</a></li>";

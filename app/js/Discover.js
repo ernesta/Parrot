@@ -140,8 +140,6 @@ var Discover = (function($) {
 	
 	// UI //
 	function onDropdownClick(data) {
-		onDrawingStarted();
-		
 		current = data.track;
 		tracks = presets[current].tracks;
 		

@@ -32,17 +32,23 @@ var Visualizer = (function($) {
 	}
 	
 	function displayExplore(t) {
+		config.onDrawingStarted();
+		
 		track = t;
 		$.getJSON(Constants.VISUALIZATIONS.EXPLORE, loadExplore);
 	}
 	
 	function displayCompare(t, p) {
+		config.onDrawingStarted();
+		
 		track = t;
 		position = p;
 		$.getJSON(Constants.VISUALIZATIONS.COMPARE, loadCompare);
 	}
 	
 	function displayDiscover(t, p) {
+		config.onDrawingStarted();
+		
 		track = t;
 		position = p;
 		$.getJSON(Constants.VISUALIZATIONS.DISCOVER, loadDiscover);

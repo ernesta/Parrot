@@ -1,7 +1,7 @@
 var Compare = (function($) {
 	//// Attributes ////
 	var tracks = [];
-	var current = [0, 1];
+	var current = [0, 0];
 	
 	var players = 0;
 	var extensions = 0;
@@ -62,35 +62,41 @@ var Compare = (function($) {
 	// Data //
 	function loadTrackList(data) {
 		tracks = data;
-		extensions = tracks.length;
+		
+		for (var i = 0; i < tracks.length; i++) {
+			extensions += tracks[i].length;
+		}
 		
 		extendTrackList();
 	}
 	
 	function extendTrackList() {
 		for (var i = 0; i < tracks.length; i++) {
-			(function(i) {
-				var path = Constants.TRACKS.OUTPUT + tracks[i].directory + Constants.TRACK.INFO;
-				
-				$.getJSON(path, function(track) {
-					$.extend(tracks[i], track);
+			for (var j = 0; j < tracks[i].length; j++) {
+				(function(i, j) {
+					var path = Constants.TRACKS.OUTPUT + tracks[i][j].directory + Constants.TRACK.INFO;
 					
-					if (--extensions === 0) {
-						initApp();
-					}
-				});
-			})(i);
+					$.getJSON(path, function(track) {
+						$.extend(tracks[i][j], track);
+						
+						if (--extensions === 0) {
+							initApp();
+						}
+					});
+				})(i, j);
+			}
 		}
 	}
 	
 	
 	// Display //
 	function displayContent(track) {
-		for (var i = 0; i < current.length; i++) {
-			UI.displayTrackList(tracks, i);
+		for (var i = 0; i < tracks.length; i++) {
+			UI.displayTrackList(tracks[i], i);
 		}
 		
-		var track = tracks[current[displays]];
+		var position = displays % tracks[displays].length;
+		var track = tracks[displays][current[displays]];
 		displayTrack(track, displays);
 	}
 	
@@ -118,8 +124,8 @@ var Compare = (function($) {
 	function onPlayersReady() {
 		players = 0;
 		
-		loadPlayerMedia(tracks[current[0]], 0);
-		loadPlayerMedia(tracks[current[1]], 1);
+		loadPlayerMedia(tracks[0][current[0]], 0);
+		loadPlayerMedia(tracks[1][current[1]], 1);
 	}
 	
 	function onTrackPlay() {}
@@ -131,10 +137,8 @@ var Compare = (function($) {
 	
 	// UI //
 	function onDropdownClick(data) {
-		onDrawingStarted();
-		
 		current[data.pos] = data.track;
-		var track = tracks[data.track];
+		var track = tracks[data.pos][data.track];
 		
 		displayTrack(track, data.pos);
 		loadPlayerMedia(track, data.pos);
@@ -149,10 +153,11 @@ var Compare = (function($) {
 	function onDrawingDone() {
 		displays++;
 		if (displays < current.length) {
-			var track = tracks[current[displays]];
+			var track = tracks[displays][current[displays]];
 			displayTrack(track, displays);
 		} else {
 			UI.toggleProgress(false);
+			displays = 1;
 		}
 	}
 	

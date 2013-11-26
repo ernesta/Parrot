@@ -119,8 +119,6 @@ var Explore = (function($) {
 	
 	// UI //
 	function onDropdownClick(data) {
-		onDrawingStarted();
-		
 		current = data.track;
 		var track = tracks[current];
 		
