@@ -73,7 +73,7 @@ var UI = (function($) {
 			"<span title='Acousticness' class='glyphicon glyphicon-leaf'></span>" + ~~(track.acousticness * 100) + "%" +
 			"<span title='Liveness' class='glyphicon glyphicon-eye-open'></span>" + ~~(track.liveness * 100) + "%" +
 			"<span title='Valence' class='glyphicon glyphicon-certificate'></span>" + ~~(track.valence * 100) + "%" +
-			"<span title='Energy' class='glyphicon glyphicon-fire'></span>" + ~~(track.energy * 100) + "%" +
+			"<span title='Energy' class='glyphicon glyphicon-star'></span>" + ~~(track.energy * 100) + "%" +
 			"<span title='Danceability' class='glyphicon glyphicon-record'></span>" + ~~(track.danceability * 100) + "%" +
 			"</p>";
 		entries[1] = "<p>" +
