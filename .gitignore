@@ -3,6 +3,7 @@ processor/pymir
 
 # Secrets
 secrets.py
+analytics.php
 
 # Python stuff
 *.pyc
