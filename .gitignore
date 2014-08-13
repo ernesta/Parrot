@@ -5,9 +5,6 @@ app/js/libs
 # Secrets
 secrets.py
 
-# Tracks
-data
-
 # Python stuff
 *.pyc
 
