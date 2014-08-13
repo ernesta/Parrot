@@ -1,4 +1,3 @@
-# Parrot
 # [Parrot](http://parrot.ernes7a.lt)
 
 Parrot is a BSc thesis project that tried to summarise and visualise popular Western music. This here includes some Python code that can analyse MP3 files and spit out thousands of numbers, and a JavaScript-heavy website that can read those numbers and turn them into things colourful and pretty.
