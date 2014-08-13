@@ -1,6 +1,9 @@
 # Parrot
+# [Parrot](http://parrot.ernes7a.lt)
 
-Visualizing music. More to come.
+Parrot is a BSc thesis project that tried to summarise and visualise popular Western music. This here includes some Python code that can analyse MP3 files and spit out thousands of numbers, and a JavaScript-heavy website that can read those numbers and turn them into things colourful and pretty.
+
+For those curious about the finer details of the project, my paper [Visual Fingerprints: Identifying, Summarizing and Comparing Music](http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2373133) is available for everyone to read and enjoy.
 
 ## Libraries
 + The processing component relies on [PyMIR](https://github.com/jsawruk/pymir), [eyeD3](http://eyed3.nicfit.net/), [pyen](https://github.com/plamere/pyen) and [pyLast](https://code.google.com/p/pylast/). On top of that, PyMIR and pyen will get you to install a bunch of other libraries.
@@ -16,3 +19,12 @@ The `data` directory includes several music tracks (all licenses CC BY-NC 3.0):
 + [Test Drive](http://ccmixter.org/files/Zapac/26047) by Zapac
 
 The app uses a [parrot](http://thenounproject.com/noun/parrot/#icon-No8601) icon designed by [nikki rodriguez](http://thenounproject.com/nrodriguezlima) from The Noun Project.
+
+## Author
+**Ernesta Orlovaitė**
+
++ [ernes7a.lt](http://ernes7a.lt)
++ [@ernes7a](http://twitter.com/ernes7a)
+
+## Screenshot
+ ![Parrot](screen.png)
